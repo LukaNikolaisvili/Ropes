@@ -130,8 +130,11 @@ public class Rope
     // Return the root of the rope constructed by concatenating two ropes with roots p and q (3 marks).
     private Node Concatenate(Node p, Node q)
     {
-     
-        return null;
+        Node root = new Node(null);
+        root.Left = p;
+        root.Right = q;
+        root.size = p.size + q.size;
+        return root;
     }
 
     // Split the rope with root p at index i and return the root of the right subtree (9 marks).
