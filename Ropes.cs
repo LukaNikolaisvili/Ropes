@@ -48,12 +48,16 @@ public class Node
 }
 
 
-
-
-public class Ropes
+public class Rope
 {
+    private class Node
+    {
+        public string s; // only stored in a leaf node
+        public int length: // augmented data
+    public Node left, right;
 
-
+    }
+    private Node root;
     Ropes(string S)
     {               //not sure if the build should go in this constructor or we have to have the other constructor for the Node itself!
                     //double check this!
@@ -64,7 +68,6 @@ public class Ropes
 
             return nd;
         }
-
     }
 
 
