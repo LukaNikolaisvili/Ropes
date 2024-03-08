@@ -20,163 +20,113 @@ node has two non-empty children (4 marks).
 
 */
 
-public class Node
-{
-
-    Node node = new Node();
-
-    Node Concatenate(Node p, Node q)
-    {
-
-        return node;
-
-    }
-
-
-    Node Split(Node p, int i)
-    {
-        return node;
-    }
-
-
-    Node Rebalance()
-    {
-
-        return node;
-    }
-
-}
-
+using System;
 
 public class Rope
 {
     private class Node
     {
-        public string s; // only stored in a leaf node
-        public int length; // augmented data
-    public Node left, right;
+        public string Value;
+        public int Weight;
+        public Node Left;
+        public Node Right;
 
+        public Node(string value)
+        {
+            Value = value;
+            Weight = value.Length;
+            Left = null;
+            Right = null;
+        }
     }
+
     private Node root;
-    Rope(string S){       
-        
+
+ 
+    public Rope(string S)
+    {
+        root = Build(S, 0, S.Length);
     }
-                //not sure if the build should go in this constructor or we have to have the other constructor for the Node itself!
-                    //double check this!
 
-        Node Build(string s, int i, int j)
-        {
-            Node nd = new Node();
-
-            return nd;
-        }
+   
+    public void Insert(string S, int i)
+    {
     
-
-    void Insert(string S, int i){
-
     }
 
-    void Delete(int i, int j)
+    public void Delete(int i, int j)
     {
-
+      
     }
 
-    string Substring(int i, int j)
+    public string Substring(int i, int j)
     {
-        i = 20;
-        j = 2;
-
-        string c = Substring(i, j);
-
-        return c;
+        
+        return "";
     }
 
-    int Find(string S)
+    public int Find(string S)
     {
-
-        if (S == "name")
-        {
-
-            return 1;
-        }
-        else
-        {
-            return 0;
-        }
-
+      
+        return -1;
     }
 
-    char CharAt(int i)
+    public char CharAt(int i)
     {
-
-        string word = "word";
-        char[] charArr = word.ToCharArray();
-
-        char a;
-        for (int j = 0; j < charArr.Length; j++)
-        {
-            //...
-        }
-
-
-
-        return 'a';
+  
+        return ' ';
     }
 
-    int IndexOf(char c)
+    public int IndexOf(char c)
     {
-
-        return 1;
+       
+        return -1;
     }
 
-    void Reverse()
+    public void Reverse()
     {
-
+     
     }
 
-    int Length()
+    public int Length()
     {
-        try
-        {
-
-        }
-        catch (System.Exception)
-        {
-
-            throw;
-        }
-
+        
         return 0;
     }
 
-    string ToString()
+    public override string ToString()
     {
-
-        return "1";
+       
+        return "";
     }
 
-    void PrintRope()
+    public void PrintRope()
     {
-        Console.WriteLine("hello world! :D ");
+     
     }
 
-
-
-
-
-    public static void Main(string[] args)
+   //private methods
+    private Node Build(string s, int i, int j)
     {
-
-        Console.WriteLine("Hello world");
-        Rope rp = new Rope("hello");
-        rp.Substring(20, 10);
-        Node nd = new Node();
-
+       
+        return null;
     }
 
+    private Node Concatenate(Node p, Node q)
+    {
+     
+        return null;
+    }
 
+    private Node Split(Node p, int i)
+    {
+       
+        return null;
+    }
+
+    private Node Rebalance()
+    {
+       
+        return null;
+    }
 }
-
-
-
-
