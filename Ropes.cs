@@ -69,7 +69,16 @@ public class Rope
     // Delete the substring S[i; j] (5 marks).
     public void Delete(int i, int j)
     {
+        // Split the rope at indices i and j
+        Node leftPart = Split(root, i);
+        Node middlePart = Split(leftPart.Right, j - i);
+        Node rightPart = middlePart.Right;
 
+        // Discard the middle part (substring to be deleted)
+        middlePart = null;
+
+        // Concatenate the left and right parts
+        root = Concatenate(leftPart, rightPart);
     }
 
     // Return the substring S[i; j] (6 marks).
@@ -351,11 +360,11 @@ public class Rope
         rope.PrintRope();
 
         // rope.Insert("777", 7); //insert method might have some issues, got to take a look at it in depth.
-        
-   
+
+
         rope.Insert("LUKADATO", 5);
-       
-      //think split method has some issues, got to take care of that
+
+        //think split method has some issues, got to take care of that
 
 
         rope.PrintRope();
