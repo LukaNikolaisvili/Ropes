@@ -166,7 +166,7 @@ public class Rope
     // Return the string represented by the current rope (4 marks).
     public override string ToString()
     {
-
+          
         return "";
     }
 
@@ -411,7 +411,7 @@ public class Rope
             {
                 Console.WriteLine("Exiting...");
                 flag = false;
-                
+
                 if (flag == false)
                 {
                     Console.WriteLine("program exited succesfully...");
