@@ -48,82 +48,94 @@ public class Rope
         root = Build(S, 0, S.Length);
     }
 
-   
+   // Insert string S at index i (5 marks).
     public void Insert(string S, int i)
     {
     
     }
-
+   // Delete the substring S[i; j] (5 marks).
     public void Delete(int i, int j)
     {
       
     }
 
+    // Return the substring S[i; j] (6 marks).
     public string Substring(int i, int j)
     {
         
         return "";
     }
-
+    // Return the index of the rst occurrence of S; -1 otherwise (9 marks).
     public int Find(string S)
     {
       
         return -1;
     }
 
+    // Return the character at index i (3 marks).
     public char CharAt(int i)
     {
   
         return ' ';
     }
-
+    
+    // Return the index of the rst occurrence of character c (4 marks).
     public int IndexOf(char c)
     {
        
         return -1;
     }
 
+    // Reverse the string represented by the current rope (5 marks).
     public void Reverse()
     {
      
     }
 
+    // Return the length of the string (1 mark).
     public int Length()
     {
         
         return 0;
     }
 
+    // Return the string represented by the current rope (4 marks).
     public override string ToString()
     {
        
         return "";
     }
 
+    // Print the augmented binary tree of the current rope (4 marks).
     public void PrintRope()
     {
      
     }
 
    //private methods
+
+   // Recursively build a balanced rope for S[i; j] and return its root (part of the constructor).
     private Node Build(string s, int i, int j)
     {
        
         return null;
     }
 
+    // Return the root of the rope constructed by concatenating two ropes with roots p and q (3 marks).
     private Node Concatenate(Node p, Node q)
     {
      
         return null;
     }
 
+    // Split the rope with root p at index i and return the root of the right subtree (9 marks).
     private Node Split(Node p, int i)
     {
        
         return null;
     }
-
+    
+    // Rebalance the rope using the algorithm found on pages 1319-1320 of Boehm et al. (9 marks).
     private Node Rebalance()
     {
        
