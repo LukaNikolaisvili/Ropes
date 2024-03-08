@@ -180,39 +180,39 @@ public class Rope
 
     // Recursive helper function to find the index of character c in the rope rooted at node.
     private int IndexOf(Node node, char c)
-{
-    try
     {
-        if (node == null)
-            return -1;
-
-        // Search in the left subtree
-        int leftIndex = IndexOf(node.Left, c);
-        if (leftIndex != -1)
-            return leftIndex;
-
-        // Check the current node
-        if (node.Value != null)
+        try
         {
-            int indexInValue = node.Value.IndexOf(c);
-            if (indexInValue != -1)
-                return (node.Left != null ? node.Left.Size : 0) + indexInValue;
+            if (node == null)
+                return -1;
+
+            // Search in the left subtree
+            int leftIndex = IndexOf(node.Left, c);
+            if (leftIndex != -1)
+                return leftIndex;
+
+            // Check the current node
+            if (node.Value != null)
+            {
+                int indexInValue = node.Value.IndexOf(c);
+                if (indexInValue != -1)
+                    return (node.Left != null ? node.Left.Size : 0) + indexInValue;
+            }
+
+            // Search in the right subtree
+            int rightIndex = IndexOf(node.Right, c);
+            if (rightIndex != -1)
+                return (node.Left != null ? node.Left.Size : 0) + (node.Value != null ? node.Value.Length : 0) + rightIndex;
+
+            return -1; // Character not found in the rope
         }
-
-        // Search in the right subtree
-        int rightIndex = IndexOf(node.Right, c);
-        if (rightIndex != -1)
-            return (node.Left != null ? node.Left.Size : 0) + (node.Value != null ? node.Value.Length : 0) + rightIndex;
-
-        return -1; // Character not found in the rope
+        catch (Exception ex)
+        {
+            // Handle the exception here, you can log it or perform any other necessary actions.
+            Console.WriteLine("An error occurred: " + ex.Message);
+            return -1; // Return -1 to indicate an error.
+        }
     }
-    catch (Exception ex)
-    {
-        // Handle the exception here, you can log it or perform any other necessary actions.
-        Console.WriteLine("An error occurred: " + ex.Message);
-        return -1; // Return -1 to indicate an error.
-    }
-}
 
     // Reverse the string represented by the current rope (5 marks).
     public void Reverse()
@@ -501,8 +501,8 @@ public class Rope
 
         Console.WriteLine(rope.ToString());
 
-       
-        Console.WriteLine( rope.IndexOf(node,'L'));
+
+        Console.WriteLine(rope.IndexOf(node, 'L'));
 
         while (flag)
         {
