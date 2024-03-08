@@ -62,7 +62,7 @@ public class Rope
 
         this.root = Concatenate(leftSide, rightSide);
         //root.value
-        Console.WriteLine(newNode.Value); // it should be the root.value but the build method is not working for the Rope class!
+        // Console.WriteLine(newNode.Value); // it should be the root.value but the build method is not working for the Rope class!
 
 
     }
@@ -82,14 +82,49 @@ public class Rope
     public int Find(string S)
     {
 
+        Node current = this.root; //starting from the root so my node will have the root 
+        while (current != null) //checking the condition that will do the action while this condition is satisfied
+        {
+
+            return 1;
+        }
+
         return -1;
     }
-
     // Return the character at index i (3 marks).
     public char CharAt(int i)
     {
+        Node current = this.root; //starting from the root so my node will have the root 
+        while (current != null) //checking the condition that will do the action while this condition is satisfied
+        {
+            //checking if current pointer.left is not null and if the index is less than the left side size
+            if (current.Left != null && i < current.Left.Size)
+            {
+                // if fond index here move to the left child and move the cursor the current to the left to make it point now to left
+                current = current.Left;
+            }
+            else
+            {
+                //checking if the left side is not equal to null
+                if (current.Left != null)
+                {
+                    i -= current.Left.Size;
+                }
 
-        return ' ';
+                //checking if the current value is not null and the index is less that the length of the current pointers value
+                if (current.Value != null && i < current.Value.Length)
+                {
+                    //then we will return the current value at index of i (character at i)
+                    return current.Value[i];
+                }
+
+                // continue to the right side tree
+                current = current.Right;
+            }
+        }
+
+        //then the out of bounds and we will return the null character <---- here we have to make sure we will output -1 
+        return '\0';
     }
 
     // Return the index of the rst occurrence of character c (4 marks).
@@ -129,7 +164,36 @@ public class Rope
     // Print the augmented binary tree of the current rope (4 marks).
     public void PrintRope()
     {
+        if (this.root == null)
+        {
+            Console.WriteLine("The rope is empty.");
+            return;
+        }
 
+        Queue<Node> queue = new Queue<Node>();
+        queue.Enqueue(this.root);
+
+        while (queue.Count > 0)
+        {
+            int levelSize = queue.Count;
+            while (levelSize > 0)
+            {
+                Node current = queue.Dequeue();
+                Console.Write($"{current.Value ?? "Node"} ");
+
+                if (current.Left != null)
+                {
+                    queue.Enqueue(current.Left);
+                }
+                if (current.Right != null)
+                {
+                    queue.Enqueue(current.Right);
+                }
+
+                levelSize--;
+            }
+            Console.WriteLine(); // Newline for new level
+        }
     }
 
     //private methods
@@ -137,8 +201,37 @@ public class Rope
     // Recursively build a balanced rope for S[i; j] and return its root (part of the constructor).
     private Node Build(string s, int i, int j)
     {
+        // If the substring is zero or -, return null.
+        if (i >= j)
+        {
+            return null;
+        }
 
-        return null;
+
+        // create and return a leaf node If the substring length is small enough,.
+        if (j - i == 1)
+        {
+            return new Node(s.Substring(i, j - i)) { Size = j - i };
+        }
+
+        // calculating the mid point to use it and to split in half (so it will split it in half)
+        int mid = i + (j - i) / 2;
+
+        // using the recursion to build the left and right sides of the tree (using the runtime stack)
+        Node left = Build(s, i, mid);
+        Node right = Build(s, mid, j);
+
+        // Create a new internal node (non-leaf) as the parent of the two subtrees.
+        Node internalNode = new Node(null)
+        {
+            Left = left,
+            Right = right,
+            // The weight of an internal node is the total length of strings in its left subtree.
+            // This assumes that all string content is stored in leaf nodes.
+            Size = (left != null ? left.Size : 0) + (right != null ? right.Size : 0)
+        };
+
+        return internalNode;
     }
 
     // Return the root of the rope constructed by concatenating two ropes with roots p and q (3 marks).
@@ -241,26 +334,33 @@ public class Rope
 
     public static void Main(string[] args)
     {
-        Node node = new Node("hello");
-        Node node1 = new Node("world");
-        Rope rope = new Rope("HelloWorld");
+        Node node = new Node("LUKA");
+        Node node1 = new Node("NIKOLAISVILI");
+        Rope rope = new Rope(node.Value + node1.Value);
 
-        Console.WriteLine(rope.Split(node, 5));
+        Console.WriteLine(rope.Split(node, 1));
 
-        Console.WriteLine(node.Value);
+        // Console.WriteLine(node.Value);
 
-        Node node3 = new Node("");
+        Node node3 = new Node(""); // L U K A N I K O
 
         node3 = rope.Concatenate(node, node1);
 
-        Console.WriteLine(node3.Value);
+        // Console.WriteLine(node3.Value);
+
+        rope.PrintRope();
+
+        // rope.Insert("777", 7); //insert method might have some issues, got to take a look at it in depth.
+        
+   
+        rope.Insert("LUKADATO", 5);
+       
+      //think split method has some issues, got to take care of that
 
 
-        rope.Insert("Farzad", 5);
+        rope.PrintRope();
 
-
-
-
+        Console.WriteLine(rope.CharAt(0)); //ideally should print the 0th index or the first character in the string
 
 
     }
