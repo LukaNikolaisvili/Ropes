@@ -27,14 +27,14 @@ public class Rope
     private class Node
     {
         public string Value;
-        public int Weight;
+        public int size;
         public Node Left;
         public Node Right;
 
         public Node(string value)
         {
             Value = value;
-            Weight = value.Length;
+            size = 0;
             Left = null;
             Right = null;
         }
