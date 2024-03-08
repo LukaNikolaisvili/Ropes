@@ -131,7 +131,7 @@ public class Ropes
 
     }
 
-    int Length(string word)
+    int Length()
     {
         try
         {
