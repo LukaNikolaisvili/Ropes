@@ -145,6 +145,7 @@ public class Rope
     private Node Concatenate(Node p, Node q)
     {
         Node root = new Node(null);
+<<<<<<< HEAD
 
         if (p == null || q == null)
         {
@@ -177,6 +178,11 @@ public class Rope
             Console.WriteLine("Root is null.");
         }
 
+=======
+        root.Left = p;
+        root.Right = q;
+        root.size = p.size + q.size;
+>>>>>>> 1b7e3b6a7d5f8eeb83e6843bd00a08d2ab05879c
         return root;
     }
 
