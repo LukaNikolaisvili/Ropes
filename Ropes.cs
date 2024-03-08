@@ -343,6 +343,8 @@ public class Rope
 
     public static void Main(string[] args)
     {
+
+
         Node node = new Node("LUKA");
         Node node1 = new Node("NIKOLAISVILI");
         Rope rope = new Rope(node.Value + node1.Value);
@@ -370,6 +372,57 @@ public class Rope
         rope.PrintRope();
 
         Console.WriteLine(rope.CharAt(0)); //ideally should print the 0th index or the first character in the string
+
+        rope.Delete(0, 7);
+
+        rope.PrintRope();
+
+        bool flag = true;
+
+        while (flag)
+        {
+            Console.WriteLine("1 - add\n2- remove\n3- build\nx- exit\n");
+            Console.WriteLine("Enter corresponding number for operation you want to perform");
+
+            string op = Console.ReadLine();
+
+
+            if (op == "1")
+            {
+                Console.WriteLine("\nyou chose add\n");
+            }
+
+            else if (op == "2")
+            {
+                Console.WriteLine("\nyou chose remove\n");
+            }
+
+            else if (op == "3")
+            {
+                Console.WriteLine("\nyou chose build\n");
+            }
+
+            else if (op == "3")
+            {
+                Console.WriteLine("\nyou chose build\n");
+            }
+
+            else if (op == "x")
+            {
+                Console.WriteLine("Exiting...");
+                flag = false;
+                
+                if (flag == false)
+                {
+                    Console.WriteLine("program exited succesfully...");
+                }
+
+
+            }
+
+
+        }
+
 
 
     }
