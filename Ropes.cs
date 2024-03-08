@@ -59,9 +59,9 @@ public class Rope
         Node newNode = new Node(S);
 
         Node leftSide = Concatenate(this.root, newNode);
-        
+
         this.root = Concatenate(leftSide, rightSide);
-                                           //root.value
+        //root.value
         Console.WriteLine(newNode.Value); // it should be the root.value but the build method is not working for the Rope class!
 
 
@@ -145,7 +145,6 @@ public class Rope
     private Node Concatenate(Node p, Node q)
     {
         Node root = new Node(null);
-<<<<<<< HEAD
 
         if (p == null || q == null)
         {
@@ -178,11 +177,6 @@ public class Rope
             Console.WriteLine("Root is null.");
         }
 
-=======
-        root.Left = p;
-        root.Right = q;
-        root.size = p.size + q.size;
->>>>>>> 1b7e3b6a7d5f8eeb83e6843bd00a08d2ab05879c
         return root;
     }
 
