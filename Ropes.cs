@@ -132,43 +132,43 @@ public class Rope
     }
     // Return the character at index i (3 marks).
     public char CharAt(int i)
-{
-    try
     {
-        Node current = this.root;
-
-        while (current != null)
+        try
         {
-            if (current.Left != null && i < current.Left.Size)
-            {
-                current = current.Left;
-            }
-            else
-            {
-                if (current.Left != null)
-                {
-                    i -= current.Left.Size;
-                }
+            Node current = this.root;
 
-                if (current.Value != null && i < current.Value.Length)
+            while (current != null)
+            {
+                if (current.Left != null && i < current.Left.Size)
                 {
-                    return current.Value[i];
+                    current = current.Left;
                 }
+                else
+                {
+                    if (current.Left != null)
+                    {
+                        i -= current.Left.Size;
+                    }
 
-                current = current.Right;
+                    if (current.Value != null && i < current.Value.Length)
+                    {
+                        return current.Value[i];
+                    }
+
+                    current = current.Right;
+                }
             }
+
+            // Return empty char to indicate index out of range.
+            return '\0';
         }
-
-        // Return empty char to indicate index out of range.
-        return '\0';
+        catch (Exception ex)
+        {
+            // Handle the exception here, you can log it or perform any other necessary actions.
+            Console.WriteLine("An error occurred: " + ex.Message);
+            return '\0'; // Return 'empty char' to indicate an error.
+        }
     }
-    catch (Exception ex)
-    {
-        // Handle the exception here, you can log it or perform any other necessary actions.
-        Console.WriteLine("An error occurred: " + ex.Message);
-        return '\0'; // Return 'empty char' to indicate an error.
-    }
-}
 
 
     // Return the index of the rest occurrence of character c (4 marks).
@@ -201,51 +201,51 @@ public class Rope
 
     // Return the string represented by the current rope (4 marks).
     public override string ToString()
-{
-    try
     {
-        if (root == null)
+        try
         {
-            return "";
-        }
-        else
-        {
-            StringBuilder strBuild = new StringBuilder();
-            Stack<Node> stack = new Stack<Node>();
-            stack.Push(root);
-
-            while (stack.Count > 0)
+            if (root == null)
             {
-                Node curr = stack.Pop();
-
-                if (curr.Value != null)
-                {
-                    strBuild.Append(curr.Value);
-                }
-                else
-                {
-                    if (curr.Right != null)
-                    {
-                        stack.Push(curr.Right);
-                    }
-
-                    if (curr.Left != null)
-                    {
-                        stack.Push(curr.Left);
-                    }
-                }
+                return "";
             }
+            else
+            {
+                StringBuilder strBuild = new StringBuilder();
+                Stack<Node> stack = new Stack<Node>();
+                stack.Push(root);
 
-            return strBuild.ToString();
+                while (stack.Count > 0)
+                {
+                    Node curr = stack.Pop();
+
+                    if (curr.Value != null)
+                    {
+                        strBuild.Append(curr.Value);
+                    }
+                    else
+                    {
+                        if (curr.Right != null)
+                        {
+                            stack.Push(curr.Right);
+                        }
+
+                        if (curr.Left != null)
+                        {
+                            stack.Push(curr.Left);
+                        }
+                    }
+                }
+
+                return strBuild.ToString();
+            }
+        }
+        catch (Exception ex)
+        {
+            // Handle the exception here, you can log it or perform any other necessary actions.
+            Console.WriteLine("An error occurred: " + ex.Message);
+            return ""; // Return an empty string or any default value to indicate an error.
         }
     }
-    catch (Exception ex)
-    {
-        // Handle the exception here, you can log it or perform any other necessary actions.
-        Console.WriteLine("An error occurred: " + ex.Message);
-        return ""; // Return an empty string or any default value to indicate an error.
-    }
-}
 
 
     // Print the augmented binary tree of the current rope (4 marks).
@@ -255,34 +255,34 @@ public class Rope
     }
 
     private void PrintNode(Node node, int indentation)
-{
-    try
     {
-        if (node == null)
+        try
         {
-            return;
+            if (node == null)
+            {
+                return;
+            }
+
+            string indent = new String(' ', indentation * 2);
+
+            if (node.Value != null)
+            {
+                Console.WriteLine("{0}( Size: {1} | Value: '{2}' )", indent, node.Size, node.Value);
+            }
+            else
+            {
+                Console.WriteLine("{0}( Size: {1} )", indent, node.Size);
+            }
+
+            PrintNode(node.Left, indentation + 2);
+            PrintNode(node.Right, indentation + 2);
         }
-
-        string indent = new String(' ', indentation * 2);
-
-        if (node.Value != null)
+        catch (Exception ex)
         {
-            Console.WriteLine("{0}( Size: {1} | Value: '{2}' )", indent, node.Size, node.Value);
+            // Handle the exception here, you can log it or perform any other necessary actions.
+            Console.WriteLine("An error occurred: " + ex.Message);
         }
-        else
-        {
-            Console.WriteLine("{0}( Size: {1} )", indent, node.Size);
-        }
-
-        PrintNode(node.Left, indentation + 2);
-        PrintNode(node.Right, indentation + 2);
     }
-    catch (Exception ex)
-    {
-        // Handle the exception here, you can log it or perform any other necessary actions.
-        Console.WriteLine("An error occurred: " + ex.Message);
-    }
-}
 
 
     //private methods
@@ -324,89 +324,89 @@ public class Rope
     }
 
     // Return the root of the rope constructed by concatenating two ropes with roots p and q (3 marks).
-   private Node Concatenate(Node p, Node q)
-{
-    try
+    private Node Concatenate(Node p, Node q)
     {
-        Node root = new Node(null);
-
-        if (p == null || q == null)
+        try
         {
+            Node root = new Node(null);
+
+            if (p == null || q == null)
+            {
+                return null;
+            }
+            else
+            {
+                root.Left = p;
+                root.Right = q;
+                root.Size = p.Size + q.Size;
+
+                if (p.Left == null && p.Right == null && q.Left == null && q.Right == null)
+                {
+                    root.Value = p.Value + q.Value;
+                }
+            }
+
+            if (this.root != null)
+            {
+                Console.WriteLine(this.root.Value);
+            }
+            else
+            {
+                Console.WriteLine("Root is null.");
+            }
+
+            return root;
+        }
+        catch (Exception ex)
+        {
+            // Handle the exception here, you can log it or perform any other necessary actions.
+            Console.WriteLine("An error occurred: " + ex.Message);
             return null;
         }
-        else
-        {
-            root.Left = p;
-            root.Right = q;
-            root.Size = p.Size + q.Size;
-
-            if (p.Left == null && p.Right == null && q.Left == null && q.Right == null)
-            {
-                root.Value = p.Value + q.Value;
-            }
-        }
-
-        if (this.root != null)
-        {
-            Console.WriteLine(this.root.Value);
-        }
-        else
-        {
-            Console.WriteLine("Root is null.");
-        }
-
-        return root;
     }
-    catch (Exception ex)
-    {
-        // Handle the exception here, you can log it or perform any other necessary actions.
-        Console.WriteLine("An error occurred: " + ex.Message);
-        return null;
-    }
-}
 
 
     // Split the rope with root p at index i and return the root of the right subtree (9 marks).
-   private Node Split(Node p, int i)
-{
-    try
+    private Node Split(Node p, int i)
     {
-        int goLeft;
-
-        if (p == null)
+        try
         {
+            int goLeft;
+
+            if (p == null)
+            {
+                return null;
+            }
+
+            if (p.Left != null)
+            {
+                goLeft = p.Left.Size;
+            }
+            else
+            {
+                goLeft = 0;
+            }
+
+            if (i <= goLeft)
+            {
+                p.Left = Split(p.Left, i);
+                return p;
+            }
+            else
+            {
+                i -= goLeft;
+                Node rightSide = Split(p.Right, i);
+                p.Right = rightSide;
+                return rightSide;
+            }
+        }
+        catch (Exception ex)
+        {
+            // Handle the exception here, you can log it or perform any other necessary actions.
+            Console.WriteLine("error occurred: " + ex.Message);
             return null;
         }
-
-        if (p.Left != null)
-        {
-            goLeft = p.Left.Size;
-        }
-        else
-        {
-            goLeft = 0;
-        }
-
-        if (i <= goLeft)
-        {
-            p.Left = Split(p.Left, i);
-            return p;
-        }
-        else
-        {
-            i -= goLeft;
-            Node rightSide = Split(p.Right, i);
-            p.Right = rightSide;
-            return rightSide;
-        }
     }
-    catch (Exception ex)
-    {
-        // Handle the exception here, you can log it or perform any other necessary actions.
-        Console.WriteLine("error occurred: " + ex.Message);
-        return null;
-    }
-}
 
 
     // Rebalance the rope using the algorithm found on pages 1319-1320 of Boehm et al. (9 marks).
