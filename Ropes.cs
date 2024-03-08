@@ -95,8 +95,12 @@ public class Rope
     // Return the length of the string (1 mark).
     public int Length()
     {
-        
-        return 0;
+        if (this.size !== null){
+            return this.size;
+        }
+        else{
+            return 0;
+        }
     }
 
     // Return the string represented by the current rope (4 marks).
