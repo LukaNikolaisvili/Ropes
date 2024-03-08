@@ -5,11 +5,7 @@ LUKA NIKOLAISVILI
 FARZAD IMRAN 
 FREDERICK NKWONTA
 DUE DATE: MAR 10, 2024
-*/
 
-
-
-/*
 
 Additional Optimizations
 The ideal rope maintains a height of O(log n), but that can be quite a challenge. To help limit the height
@@ -21,6 +17,8 @@ node has two non-empty children (4 marks).
 */
 
 using System;
+using System.Data;
+using System.Text;
 
 public class Rope
 {
@@ -167,8 +165,46 @@ public class Rope
     // Return the string represented by the current rope (4 marks).
     public override string ToString()
     {
+        if (root == null)
+        {
+            return "";
+        }
+        else
+        {
+            StringBuilder strBuild = new StringBuilder();
+            Stack<Node> stack = new Stack<Node>();
+            stack.Push(root);
 
-        return "";
+            while (stack.Count > 0) //this is my condition until my loop will run, basically it will go in the loop and do the following operations
+            {
+                Node curr = stack.Pop(); //one by one it will take the values from the stack, the stack currently have the values from the root, and one by one it will take it out
+
+                //and for everything it will go in this if and else statements and do the following ...
+
+                if (curr.Value != null) //if my current pointer is not null I will connect its value to the stringBuilder 
+                {
+                    strBuild.Append(curr.Value);
+                }
+                else
+                {
+                    if (curr.Right != null) //same way I will check if the right side is not null and then push it in the stack, using the stack push
+                    {
+                        stack.Push(curr.Right);
+                    }
+
+                    if (curr.Left != null) //before pushing the code in the stack I will check if the left side is not null and then push it in 
+                    {
+                        stack.Push(curr.Left);
+                    }
+                }
+
+            }
+
+            //returning the StringBUilder content using the ToString method
+            return strBuild.ToString();
+        }
+
+
     }
 
     // Print the augmented binary tree of the current rope (4 marks).
@@ -181,13 +217,13 @@ public class Rope
     {
         if (node == null)
         {
-            return; 
+            return;
         }
 
-       
-        string indent = new String(' ', indentation * 4);
 
-      
+        string indent = new String(' ', indentation * 2);
+
+
         if (node.Value != null)
         {
             Console.WriteLine("{0}( Size: {1} | Value: '{2}' )", indent, node.Size, node.Value);
@@ -197,9 +233,9 @@ public class Rope
             Console.WriteLine("{0}( Size: {1} )", indent, node.Size);
         }
 
-    
-        PrintNode(node.Left, indentation + 1);
-        PrintNode(node.Right, indentation + 1);
+
+        PrintNode(node.Left, indentation + 2);
+        PrintNode(node.Right, indentation + 2);
     }
 
     //private methods
@@ -356,7 +392,7 @@ public class Rope
 
         // Console.WriteLine(node3.Value);
 
-        rope.PrintRope();
+        // rope.PrintRope();
 
         // rope.Insert("777", 7); //insert method might have some issues, got to take a look at it in depth.
 
@@ -366,7 +402,7 @@ public class Rope
         //think split method has some issues, got to take care of that
 
 
-        rope.PrintRope();
+        // rope.PrintRope();
 
         Console.WriteLine(rope.CharAt(0)); //ideally should print the 0th index or the first character in the string
 
@@ -375,6 +411,8 @@ public class Rope
         rope.PrintRope();
 
         bool flag = true;
+
+        Console.WriteLine(rope.ToString());
 
         while (flag)
         {
@@ -396,12 +434,15 @@ public class Rope
 
             else if (op == "3")
             {
+                Console.WriteLine(rope.ToString());
                 Console.WriteLine("\nyou chose build\n");
             }
 
-            else if (op == "3")
+            else if (op == "4")
             {
                 Console.WriteLine("\nyou chose build\n");
+
+
             }
 
             else if (op == "x")
