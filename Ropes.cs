@@ -167,43 +167,39 @@ public class Rope
     // Return the string represented by the current rope (4 marks).
     public override string ToString()
     {
-          
+
         return "";
     }
 
     // Print the augmented binary tree of the current rope (4 marks).
     public void PrintRope()
     {
-        if (this.root == null)
+        PrintNode(this.root, 0);
+    }
+
+    private void PrintNode(Node node, int indentation)
+    {
+        if (node == null)
         {
-            Console.WriteLine("The rope is empty.");
-            return;
+            return; 
         }
 
-        Queue<Node> queue = new Queue<Node>();
-        queue.Enqueue(this.root);
+       
+        string indent = new String(' ', indentation * 4);
 
-        while (queue.Count > 0)
+      
+        if (node.Value != null)
         {
-            int levelSize = queue.Count;
-            while (levelSize > 0)
-            {
-                Node current = queue.Dequeue();
-                Console.Write($"{current.Value ?? "Node"} ");
-
-                if (current.Left != null)
-                {
-                    queue.Enqueue(current.Left);
-                }
-                if (current.Right != null)
-                {
-                    queue.Enqueue(current.Right);
-                }
-
-                levelSize--;
-            }
-            Console.WriteLine(); // Newline for new level
+            Console.WriteLine("{0}( Size: {1} | Value: '{2}' )", indent, node.Size, node.Value);
         }
+        else
+        {
+            Console.WriteLine("{0}( Size: {1} )", indent, node.Size);
+        }
+
+    
+        PrintNode(node.Left, indentation + 1);
+        PrintNode(node.Right, indentation + 1);
     }
 
     //private methods
