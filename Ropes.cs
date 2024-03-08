@@ -53,13 +53,15 @@ public class Rope
     private class Node
     {
         public string s; // only stored in a leaf node
-        public int length: // augmented data
+        public int length; // augmented data
     public Node left, right;
 
     }
     private Node root;
-    Ropes(string S)
-    {               //not sure if the build should go in this constructor or we have to have the other constructor for the Node itself!
+    Rope(string S){       
+        
+    }
+                //not sure if the build should go in this constructor or we have to have the other constructor for the Node itself!
                     //double check this!
 
         Node Build(string s, int i, int j)
@@ -68,11 +70,9 @@ public class Rope
 
             return nd;
         }
-    }
+    
 
-
-    void Insert(string S, int i)
-    {
+    void Insert(string S, int i){
 
     }
 
@@ -168,7 +168,7 @@ public class Rope
     {
 
         Console.WriteLine("Hello world");
-        Ropes rp = new Ropes("hello");
+        Rope rp = new Rope("hello");
         rp.Substring(20, 10);
         Node nd = new Node();
 
