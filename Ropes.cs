@@ -3,7 +3,7 @@ COIS-3020 ASSIGNMENT 2
 CONTRIBUTORS:
 LUKA NIKOLAISVILI
 FARZAD IMRAN 
-FREDERICK <--- check the spelling 
+FREDERICK NKWONTA
 DUE DATE: MAR 10, 2024
 */
 
@@ -136,9 +136,10 @@ public class Rope
         return '\0';
     }
 
-    // Return the index of the rst occurrence of character c (4 marks).
+    // Return the index of the rest occurrence of character c (4 marks).
     public int IndexOf(char c)
     {
+
 
         return -1;
     }
@@ -411,7 +412,7 @@ public class Rope
             {
                 Console.WriteLine("Exiting...");
                 flag = false;
-                
+
                 if (flag == false)
                 {
                     Console.WriteLine("program exited succesfully...");
