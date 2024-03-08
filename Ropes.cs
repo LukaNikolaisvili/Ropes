@@ -16,8 +16,8 @@ node has two non-empty children (4 marks).
 
 */
 
-using System;
-using System.Data;
+
+using System.Net;
 using System.Text;
 
 public class Rope
@@ -51,14 +51,24 @@ public class Rope
     // Insert string S at index i (5 marks).
     public void Insert(string S, int i)
     {
+        try
+        {
+            Node rightSide = Split(this.root, i);
 
-        Node rightSide = Split(this.root, i);
+            Node newNode = new Node(S);
 
-        Node newNode = new Node(S);
+            Node leftSide = Concatenate(this.root, newNode);
 
-        Node leftSide = Concatenate(this.root, newNode);
+            this.root = Concatenate(leftSide, rightSide);
 
-        this.root = Concatenate(leftSide, rightSide);
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine("error occurred: " + ex.Message);
+
+        }
+
+
         //root.value
         // Console.WriteLine(newNode.Value); // it should be the root.value but the build method is not working for the Rope class!
 
@@ -67,16 +77,27 @@ public class Rope
     // Delete the substring S[i; j] (5 marks).
     public void Delete(int i, int j)
     {
-        // Split the rope at indices i and j
-        Node leftPart = Split(root, i);
-        Node middlePart = Split(leftPart.Right, j - i);
-        Node rightPart = middlePart.Right;
 
-        // Discard the middle part (substring to be deleted)
-        middlePart = null;
+        try
+        {
+            // Split the rope at indices i and j
+            Node leftPart = Split(root, i);
+            Node middlePart = Split(leftPart.Right, j - i);
+            Node rightPart = middlePart.Right;
 
-        // Concatenate the left and right parts
-        root = Concatenate(leftPart, rightPart);
+            // Discard the middle part (substring to be deleted)
+            middlePart = null;
+
+            // Concatenate the left and right parts
+            root = Concatenate(leftPart, rightPart);
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine("error occurred: " + ex.Message);
+
+        }
+
+
     }
 
     // Return the substring S[i; j] (6 marks).
@@ -89,50 +110,66 @@ public class Rope
     public int Find(string S)
     {
 
-        Node current = this.root; //starting from the root so my node will have the root 
-        while (current != null) //checking the condition that will do the action while this condition is satisfied
+        try
+        {
+            Node current = this.root; //starting from the root so my node will have the root 
+            while (current != null) //checking the condition that will do the action while this condition is satisfied
+            {
+
+                return 1;
+            }
+        }
+        catch (Exception ex)
         {
 
-            return 1;
+            Console.WriteLine("error occurred: " + ex.Message);
+
         }
+
+
 
         return -1;
     }
     // Return the character at index i (3 marks).
     public char CharAt(int i)
+{
+    try
     {
-        Node current = this.root; //starting from the root so my node will have the root 
-        while (current != null) //checking the condition that will do the action while this condition is satisfied
+        Node current = this.root;
+
+        while (current != null)
         {
-            //checking if current pointer.left is not null and if the index is less than the left side size
             if (current.Left != null && i < current.Left.Size)
             {
-                // if fond index here move to the left child and move the cursor the current to the left to make it point now to left
                 current = current.Left;
             }
             else
             {
-                //checking if the left side is not equal to null
                 if (current.Left != null)
                 {
                     i -= current.Left.Size;
                 }
 
-                //checking if the current value is not null and the index is less that the length of the current pointers value
                 if (current.Value != null && i < current.Value.Length)
                 {
-                    //then we will return the current value at index of i (character at i)
                     return current.Value[i];
                 }
 
-                // continue to the right side tree
                 current = current.Right;
             }
         }
 
-        //then the out of bounds and we will return the null character <---- here we have to make sure we will output -1 
+        // Return empty char to indicate index out of range.
         return '\0';
     }
+    catch (Exception ex)
+    {
+        // Handle the exception here, you can log it or perform any other necessary actions.
+        Console.WriteLine("An error occurred: " + ex.Message);
+        return '\0'; // Return 'empty char' to indicate an error.
+    }
+}
+
 
     // Return the index of the rest occurrence of character c (4 marks).
     public int IndexOf(char c)
@@ -164,6 +201,8 @@ public class Rope
 
     // Return the string represented by the current rope (4 marks).
     public override string ToString()
+{
+    try
     {
         if (root == null)
         {
@@ -175,37 +214,39 @@ public class Rope
             Stack<Node> stack = new Stack<Node>();
             stack.Push(root);
 
-            while (stack.Count > 0) //this is my condition until my loop will run, basically it will go in the loop and do the following operations
+            while (stack.Count > 0)
             {
-                Node curr = stack.Pop(); //one by one it will take the values from the stack, the stack currently have the values from the root, and one by one it will take it out
+                Node curr = stack.Pop();
 
-                //and for everything it will go in this if and else statements and do the following ...
-
-                if (curr.Value != null) //if my current pointer is not null I will connect its value to the stringBuilder 
+                if (curr.Value != null)
                 {
                     strBuild.Append(curr.Value);
                 }
                 else
                 {
-                    if (curr.Right != null) //same way I will check if the right side is not null and then push it in the stack, using the stack push
+                    if (curr.Right != null)
                     {
                         stack.Push(curr.Right);
                     }
 
-                    if (curr.Left != null) //before pushing the code in the stack I will check if the left side is not null and then push it in 
+                    if (curr.Left != null)
                     {
                         stack.Push(curr.Left);
                     }
                 }
-
             }
 
-            //returning the StringBUilder content using the ToString method
             return strBuild.ToString();
         }
-
-
     }
+    catch (Exception ex)
+    {
+        // Handle the exception here, you can log it or perform any other necessary actions.
+        Console.WriteLine("An error occurred: " + ex.Message);
+        return ""; // Return an empty string or any default value to indicate an error.
+    }
+}
+
 
     // Print the augmented binary tree of the current rope (4 marks).
     public void PrintRope()
@@ -214,15 +255,15 @@ public class Rope
     }
 
     private void PrintNode(Node node, int indentation)
+{
+    try
     {
         if (node == null)
         {
             return;
         }
 
-
         string indent = new String(' ', indentation * 2);
-
 
         if (node.Value != null)
         {
@@ -233,10 +274,16 @@ public class Rope
             Console.WriteLine("{0}( Size: {1} )", indent, node.Size);
         }
 
-
         PrintNode(node.Left, indentation + 2);
         PrintNode(node.Right, indentation + 2);
     }
+    catch (Exception ex)
+    {
+        // Handle the exception here, you can log it or perform any other necessary actions.
+        Console.WriteLine("An error occurred: " + ex.Message);
+    }
+}
+
 
     //private methods
 
@@ -277,7 +324,9 @@ public class Rope
     }
 
     // Return the root of the rope constructed by concatenating two ropes with roots p and q (3 marks).
-    private Node Concatenate(Node p, Node q)
+   private Node Concatenate(Node p, Node q)
+{
+    try
     {
         Node root = new Node(null);
 
@@ -287,21 +336,15 @@ public class Rope
         }
         else
         {
-
-
             root.Left = p;
             root.Right = q;
             root.Size = p.Size + q.Size;
 
-
             if (p.Left == null && p.Right == null && q.Left == null && q.Right == null)
             {
                 root.Value = p.Value + q.Value;
-
             }
-
         }
-
 
         if (this.root != null)
         {
@@ -314,29 +357,31 @@ public class Rope
 
         return root;
     }
+    catch (Exception ex)
+    {
+        // Handle the exception here, you can log it or perform any other necessary actions.
+        Console.WriteLine("An error occurred: " + ex.Message);
+        return null;
+    }
+}
+
 
     // Split the rope with root p at index i and return the root of the right subtree (9 marks).
-    private Node Split(Node p, int i)
+   private Node Split(Node p, int i)
+{
+    try
     {
         int goLeft;
 
         if (p == null)
         {
-            // try{
             return null;
-
-            // }catch{
-            //     Exception(e)
-            // }
-
-
         }
 
         if (p.Left != null)
         {
             goLeft = p.Left.Size;
         }
-
         else
         {
             goLeft = 0;
@@ -344,31 +389,38 @@ public class Rope
 
         if (i <= goLeft)
         {
-
-
             p.Left = Split(p.Left, i);
-
             return p;
-
         }
         else
         {
-            i -= goLeft; // + p.Value.Length;
+            i -= goLeft;
             Node rightSide = Split(p.Right, i);
-
             p.Right = rightSide;
-
             return rightSide;
         }
-
-
-
     }
+    catch (Exception ex)
+    {
+        // Handle the exception here, you can log it or perform any other necessary actions.
+        Console.WriteLine("error occurred: " + ex.Message);
+        return null;
+    }
+}
 
 
     // Rebalance the rope using the algorithm found on pages 1319-1320 of Boehm et al. (9 marks).
     private Node Rebalance()
     {
+        try
+        {
+            return null;
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine("error occurred: " + ex.Message);
+
+        }
 
         return null;
     }
