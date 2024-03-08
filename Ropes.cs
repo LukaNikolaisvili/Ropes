@@ -27,14 +27,14 @@ public class Rope
     private class Node
     {
         public string Value;
-        public int Weight;
+        public int Size;
         public Node Left;
         public Node Right;
 
         public Node(string value)
         {
             Value = value;
-            Weight = value.Length;
+            Size = null;
             Left = null;
             Right = null;
         }
@@ -90,8 +90,12 @@ public class Rope
 
     public int Length()
     {
-        
-        return 0;
+        if (this.size !== null){
+            return this.size;
+        }
+        else{
+            return null;
+        }
     }
 
     public override string ToString()
