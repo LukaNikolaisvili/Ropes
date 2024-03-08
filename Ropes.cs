@@ -41,6 +41,7 @@ public class Rope
     }
 
     private Node root;
+    Node node = new Node(null);
 
  
     public Rope(string S)
@@ -95,8 +96,9 @@ public class Rope
     // Return the length of the string (1 mark).
     public int Length()
     {
-        if (this.size !== null){
-            return this.size;
+
+        if (node.size != 0){
+            return node.size;
         }
         else{
             return 0;
