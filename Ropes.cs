@@ -17,7 +17,7 @@ node has two non-empty children (4 marks).
 */
 
 
-using System.Net;
+
 using System.Text;
 
 public class Rope
@@ -32,7 +32,14 @@ public class Rope
         public Node(string value)
         {
             Value = value;
-            Size = 0;
+            if (value != null)
+            {
+                Size = value.Length;
+            }
+            else
+            {
+                Size = 0;
+            }
             Left = null;
             Right = null;
         }
@@ -217,19 +224,80 @@ public class Rope
     // Reverse the string represented by the current rope (5 marks).
     public void Reverse()
     {
+        try
+        {
+            if (this.root == null) return;
 
+            Stack<Node> stack = new Stack<Node>();
+            stack.Push(this.root);
+
+            while (stack.Count > 0)
+            {
+                Node current = stack.Pop();
+
+                // If the node is not a leaf, it has children to be processed
+                if (current.Left != null || current.Right != null)
+                {
+                    // Swap the children nodes
+                    Node temp = current.Left;
+                    current.Left = current.Right;
+                    current.Right = temp;
+
+
+                    if (current.Left != null)
+                    {
+                        stack.Push(current.Left);
+                    }
+
+                    if (current.Right != null)
+                    {
+                        stack.Push(current.Right);
+                    }
+                }
+                else
+                {
+                    // Directly reverse the string for leaf nodes
+                    char[] charArray = current.Value.ToCharArray();
+                    Array.Reverse(charArray);
+                    StringBuilder reversedString = new StringBuilder(charArray.Length);
+                    for (int i = charArray.Length - 1; i >= 0; i--)
+                    {
+                        reversedString.Append(charArray[i]);
+                    }
+
+                    current.Value = reversedString.ToString();
+                }
+            }
+        }
+        catch (Exception ex)
+        {
+
+            Console.WriteLine("An error occurred" + ex.Message);
+
+        }
     }
 
     // Return the length of the string (1 mark).
     public int Length()
     {
-
-        if (node.Size != 0)
+        try
         {
-            return node.Size;
+            // Check if node is not null and size is not zero
+            if (node != null && node.Size != 0)
+            {
+                return node.Size;
+            }
+            else
+            {
+                return 0;
+            }
         }
-        else
+        catch (Exception ex)
         {
+
+            Console.WriteLine("An error occurred:" + ex.Message);
+
+
             return 0;
         }
     }
@@ -392,8 +460,9 @@ public class Rope
 
 
             //Optimization adding left and right together if the total size is less than or equal to 5
-            if(root.Left.Size + root.Right.Size <= 5 ){
-                
+            if (root.Left.Size + root.Right.Size <= 5)
+            {
+
                 root.Value = p.Value + q.Value;
 
             }
@@ -483,7 +552,7 @@ public class Rope
 
         Node node3 = new Node(""); // L U K A N I K O
 
-        node3 = rope.Concatenate(node, node1);
+        // node3 = rope.Concatenate(node, node1);
 
         // Console.WriteLine(node3.Value);
 
@@ -492,58 +561,196 @@ public class Rope
         // rope.Insert("777", 7); //insert method might have some issues, got to take a look at it in depth.
 
 
-        rope.Insert("LUKADATO", 5);
+        // rope.Insert("LUKADATO", 5);
 
         //think split method has some issues, got to take care of that
 
 
         // rope.PrintRope();
 
-        Console.WriteLine(rope.CharAt(0)); //ideally should print the 0th index or the first character in the string
+        // Console.WriteLine(rope.CharAt(0)); //ideally should print the 0th index or the first character in the string
 
-        rope.Delete(0, 7);
+        // rope.Delete(0, 7);
 
-        rope.PrintRope();
+        rope.Reverse();
+
+        // rope.PrintRope();
+
+
+
+
+
 
         bool flag = true;
 
-        Console.WriteLine(rope.ToString());
+        // Console.WriteLine(rope.ToString());
 
 
         Console.WriteLine(rope.IndexOf(node, 'L'));
 
+        // Console.WriteLine(rope.Split(node, 1));
+
+        // rope.PrintRope();
+
+
         while (flag)
         {
-            Console.WriteLine("1 - add\n2- remove\n3- build\nx- exit\n");
-            Console.WriteLine("Enter corresponding number for operation you want to perform");
+            Console.WriteLine("\nHello, you can perform any of these operations!");
+            Console.WriteLine("-----------------");
+            Console.WriteLine("1 - Insert\n2 - split\n3 - delete\n4 - Reverse\n5 - print\n6 - ToString\n7 - remove\n8 - build\n9 - remove\n0 - build\nx - exit");
+            Console.WriteLine("-----------------");
+            Console.WriteLine("Enter any of these operation UID");
 
             string op = Console.ReadLine();
 
 
             if (op == "1")
             {
-                Console.WriteLine("\nyou chose add\n");
+                Console.WriteLine("\nyou chose Insert!\n");
+                Console.WriteLine("Type the word that you want to add: ");
+                string st = Console.ReadLine();
+                Console.WriteLine("\nType index where you want to add it: ");
+                string input = Console.ReadLine();
+                bool convertStartIndexToInt = Int32.TryParse(input, out int index);
+
+                if (st.Length > 0 && index != -1 && convertStartIndexToInt == true)
+                {
+                    rope.Insert(st, index);
+                    Console.WriteLine("\n" + "[" + st + "]" + " succesfully inserted!");
+                }
+
             }
 
             else if (op == "2")
             {
-                Console.WriteLine("\nyou chose remove\n");
+                Console.WriteLine("\nyou chose Split!\n");
+
+                Console.WriteLine("Enter index where you want to split");
+                string input = Console.ReadLine();
+                bool convertStartIndexToInt = Int32.TryParse(input, out int index);
+
+                if (convertStartIndexToInt == true)
+                {
+                    Console.WriteLine(rope.Split(node, index));
+                    Console.WriteLine("\nSplitted succesfully at index " + index);
+                }
+
+                else
+                {
+                    Console.WriteLine("wrong input!");
+                }
+
+
+
             }
 
             else if (op == "3")
             {
-                Console.WriteLine(rope.ToString());
-                Console.WriteLine("\nyou chose build\n");
+                Console.WriteLine("\nyou chose delete!\n");
+                Console.WriteLine("Enter the start position");
+                string input = Console.ReadLine();
+                bool convertStartIndexToInt = Int32.TryParse(input, out int startIndex);
+                Console.WriteLine("Enter the stop position");
+                string secondInput = Console.ReadLine();
+                bool convertStopIndexToInt = Int32.TryParse(secondInput, out int stopIndex);
+
+                if (startIndex != -1 && stopIndex != -1 && stopIndex! > startIndex)
+                {
+
+                    rope.Delete(startIndex, stopIndex);
+
+                    Console.WriteLine("from starting position " + startIndex + " until the stop position " + stopIndex + " removed successfully!");
+                }
+
+                else
+                {
+                    Console.WriteLine("Oops, something went wrong try again!");
+                }
+
+
+
             }
 
             else if (op == "4")
             {
-                Console.WriteLine("\nyou chose build\n");
+                Console.WriteLine("\nyou chose Reverse!\n");
+
+                rope.Reverse();
+
+                Console.WriteLine(rope.ToString());
+
+
+
+                Console.WriteLine("\nReversed succesfully!");
 
 
             }
 
-            else if (op == "x")
+            else if (op == "5")
+            {
+                Console.WriteLine("you chose print!");
+                Console.WriteLine("Printing...");
+                rope.PrintRope();
+
+
+
+
+            }
+
+
+            else if (op == "6")
+            {
+                Console.WriteLine("you chose ToString!");
+                Console.WriteLine("\nshowing what is rope made of:\n");
+                Console.WriteLine(rope.ToString());
+
+            }
+
+
+
+            else if (op == "7")
+            {
+                Console.WriteLine("Exiting...");
+                flag = false;
+
+                if (flag == false)
+                {
+                    Console.WriteLine("program exited succesfully...");
+                }
+
+
+            }
+
+
+            else if (op == "8")
+            {
+                Console.WriteLine("Exiting...");
+                flag = false;
+
+                if (flag == false)
+                {
+                    Console.WriteLine("program exited succesfully...");
+                }
+
+
+            }
+
+
+            else if (op == "9")
+            {
+                Console.WriteLine("Exiting...");
+                flag = false;
+
+                if (flag == false)
+                {
+                    Console.WriteLine("program exited succesfully...");
+                }
+
+
+            }
+
+
+            else if (op == "0")
             {
                 Console.WriteLine("Exiting...");
                 flag = false;
