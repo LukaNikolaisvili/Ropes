@@ -390,6 +390,14 @@ public class Rope
                 Console.WriteLine("Root is null.");
             }
 
+
+            //Optimization adding left and right together if the total size is less than or equal to 5
+            if(root.Left.Size + root.Right.Size <= 5 ){
+                
+                root.Value = p.Value + q.Value;
+
+            }
+
             return root;
         }
         catch (Exception ex)
