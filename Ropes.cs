@@ -896,7 +896,7 @@ public class Rope
             //Find Call
             else if (op == "8")
             {
-                Console.WriteLine("Find operation:");
+                Console.WriteLine("You chose Find...\n");
                 Console.Write("Enter the string to find: ");
                 string input = Console.ReadLine();
                 int Index = rope.Find(input);
@@ -915,7 +915,7 @@ public class Rope
             // ChatAT call 
             else if (op == "9")
             {
-                Console.WriteLine("CharAt operation:");
+                Console.WriteLine("You chose ChatAt...\n");
                 Console.Write("Enter the index of the character: ");
                 string input = Console.ReadLine();
 
@@ -940,7 +940,7 @@ public class Rope
             //Indexof Call
             else if (op == "10")
             {
-                Console.WriteLine("IndexOf operation:");
+                Console.WriteLine("You chose IndexOf...\n");
                 Console.Write("Enter the character: ");
                 string input = Console.ReadLine();
 
