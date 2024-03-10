@@ -167,21 +167,35 @@ public class Rope
     public int Find(string S)  //finish Find ***
     {
 
+        int index = 0;
+
         try
         {
             Node current = this.root; //starting from the root so my node will have the root 
+
             while (current != null) //checking the condition that will do the action while this condition is satisfied
             {
+                if (this.root.Value.Contains(S))
+                {
 
-                return 1;
+                    return this.root.Value.IndexOf(S);
+
+
+                }
+
             }
+
+            return -1;
+
         }
+
         catch (Exception ex)
         {
 
             Console.WriteLine("error occurred: " + ex.Message);
 
         }
+
         return -1;
     }
 
@@ -864,14 +878,20 @@ public class Rope
 
             else if (op == "8")
             {
-                Console.WriteLine("Exiting...");
-                flag = false;
+                Console.WriteLine("You chose Find! ");
+                Console.WriteLine("\nPlease enter the string that you want to find:\n ");
 
-                if (flag == false)
+                string findString = Console.ReadLine();
+
+                if (findString != null)
                 {
-                    Console.WriteLine("program exited succesfully...");
+                    Console.WriteLine(rope.Find(findString));
                 }
 
+                else
+                {
+                    Console.WriteLine("Oops something went wrong!");
+                }
 
             }
 
