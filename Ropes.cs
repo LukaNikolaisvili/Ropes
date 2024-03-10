@@ -163,25 +163,38 @@ public class Rope
         }
     }
 
-    // Return the index of the rst occurrence of S; -1 otherwise (9 marks).
+    // Return the index of the first occurrence of S; -1 otherwise (9 marks).
     public int Find(string S)  //finish Find ***
-    {
+    {   
+
+        int index = 0;
 
         try
         {
             Node current = this.root; //starting from the root so my node will have the root 
+
             while (current != null) //checking the condition that will do the action while this condition is satisfied
             {
+               if (this.root.Value.Contains(S)) {
 
-                return 1;
+                 return this.root.Value.IndexOf(S);
+
+               
+               }
+
             }
+                   
+                return 1;
+            
         }
+
         catch (Exception ex)
         {
 
             Console.WriteLine("error occurred: " + ex.Message);
 
         }
+
         return -1;
     }
 
@@ -715,7 +728,7 @@ public class Rope
             // User interface
            Console.WriteLine("\nHello, you can perform any of these operations!");
         Console.WriteLine("-----------------");
-        Console.WriteLine("1 - Insert\n2 - Split\n3 - Delete\n4 - Reverse\n5 - Print\n6 - ToString\n7 - Substring\n8 - Build\n9 - Remove\n0 - Build\nx - Exit");
+        Console.WriteLine("1 - Insert\n2 - Split\n3 - Delete\n4 - Reverse\n5 - Print\n6 - ToString\n7 - Substring\n8 - Find\n9 - Remove\n0 - Build\nx - Exit");
         Console.WriteLine("-----------------");
         Console.WriteLine("Enter the UID of the operation: ");
 
@@ -863,14 +876,18 @@ public class Rope
 
             else if (op == "8")
             {
-                Console.WriteLine("Exiting...");
-                flag = false;
+                Console.WriteLine("You chose Find! ");
+                Console.WriteLine("\nPlease enter the string that you want to find:\n ");
+                
+                string findString = Console.ReadLine();
 
-                if (flag == false)
-                {
-                    Console.WriteLine("program exited succesfully...");
+                if(findString != null){
+                      Console.WriteLine(rope.Find(findString));
                 }
 
+                else{
+                    Console.WriteLine("Oops something went wrong!");
+                }
 
             }
 
