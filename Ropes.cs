@@ -65,19 +65,27 @@ public class Rope
     {
         try
         {
-            // Split the node at index i
-            Node rightSide = Split(this.root, i);
 
-            // Create a new node to hole the string to be inserted
-            Node newNode = new Node(S);
+            if (S != "" || i == -1)
+            {
+                // Split the node at index i
+                Node rightSide = Split(this.root, i);
 
-            // concatenate the current node with the new node
-            Node leftSide = Concatenate(this.root, newNode);
+                // Create a new node to hole the string to be inserted
+                Node newNode = new Node(S);
 
-            // concatenate the left side of the tree with the tree exported from split
-            this.root = Concatenate(leftSide, rightSide);
+                // concatenate the current node with the new node
+                Node leftSide = Concatenate(this.root, newNode);
 
+                Console.WriteLine("The size of S is in IF:" + S.Length);
+                // concatenate the left side of the tree with the tree exported from split
+                this.root = Concatenate(leftSide, rightSide);
+
+
+            }
         }
+
+
         catch (Exception ex)
         {
             Console.WriteLine("error occurred: " + ex.Message);
@@ -148,7 +156,7 @@ public class Rope
             if (root != null)
             {
                 // Length is the size value stored in the root node
-                return root.Size;
+                return root.Size; //start from 0
             }
             else
             {
@@ -750,6 +758,17 @@ public class Rope
                     Console.WriteLine("\n" + "[" + st + "]" + " succesfully inserted!");
                 }
 
+                else if (st == "")
+                {
+                    Console.WriteLine("You can not pass the empty string! ");
+                }
+
+                else if (index == -1)
+                {
+                    Console.WriteLine("You can not pass the negative location index! ");
+                }
+
+
             }
 
             // Split test call
@@ -761,11 +780,12 @@ public class Rope
                 string input = Console.ReadLine();
                 bool convertStartIndexToInt = Int32.TryParse(input, out int index);
 
-                if (convertStartIndexToInt == true)
+                if (convertStartIndexToInt == true && index != -1)
                 {
                     Console.WriteLine(rope.Split(node, index));
                     Console.WriteLine("\nSplitted succesfully at index " + index);
                 }
+
 
                 else
                 {
@@ -896,15 +916,8 @@ public class Rope
 
             else if (op == "9")
             {
-                Console.WriteLine("Exiting...");
-                flag = false;
-
-                if (flag == false)
-                {
-                    Console.WriteLine("program exited succesfully...");
-                }
-
-
+                
+                Console.WriteLine(rope.LengthRope());
             }
 
             // Program Exit call
