@@ -715,7 +715,7 @@ public class Rope
             // User interface
             Console.WriteLine("\nHello, you can perform any of these operations!");
             Console.WriteLine("-----------------");
-            Console.WriteLine("1 - Insert\n2 - split\n3 - delete\n4 - Reverse\n5 - print\n6 - ToString\n7 - remove\n8 - build\n9 - remove\n0 - build\nx - exit");
+            Console.WriteLine("1 - Insert\n2 - split\n3 - delete\n4 - Reverse\n5 - print\n6 - ToString\n7 - Substring\n8 - build\n9 - remove\n0 - build\nx - exit");
             Console.WriteLine("-----------------");
             Console.WriteLine("Enter any of these operation UID");
 
@@ -833,13 +833,18 @@ public class Rope
 
             else if (op == "7")
             {
-                Console.WriteLine("Exiting...");
-                flag = false;
+                Console.WriteLine("You chose substring...\n");
 
-                if (flag == false)
-                {
-                    Console.WriteLine("program exited succesfully...");
-                }
+                Console.WriteLine("Enter the start index:\n ");
+                string input = Console.ReadLine();
+                bool convertStartIndexToInt = Int32.TryParse(input, out int startIndex);
+                Console.WriteLine("Enter the stop index\n");
+                string secondInput = Console.ReadLine();
+                bool convertStopIndexToInt = Int32.TryParse(secondInput, out int stopIndex);
+
+                Console.WriteLine("The resultant string after applying substring is:\n ");
+                Console.WriteLine(rope.Substring(startIndex,stopIndex));
+                
 
 
             }
