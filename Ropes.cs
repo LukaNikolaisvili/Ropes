@@ -164,40 +164,38 @@ public class Rope
     }
 
     // Return the index of the first occurrence of S; -1 otherwise (9 marks).
-    public int Find(string S)  //finish Find ***
+    public int Find(string S)
     {
-
-        int index = 0;
-
         try
         {
-            Node current = this.root; //starting from the root so my node will have the root 
-
-            while (current != null) //checking the condition that will do the action while this condition is satisfied
+            // Start traversing the rope character by character
+            for (int i = 0; i <= root.Size - S.Length; i++)
             {
-                if (this.root.Value.Contains(S))
+                // Check if the substring matches starting from the current position
+                bool match = true;
+                for (int j = 0; j < S.Length; j++)
                 {
-
-                    return this.root.Value.IndexOf(S);
-
-
+                    // Compare characters at each position
+                    if (CharAt(i + j) != S[j])
+                    {
+                        match = false;
+                        break;
+                    }
                 }
 
+                // If a match is found, return the index of the first character of the substring
+                if (match)
+                    return i;
             }
-
-            return -1;
-
         }
-
         catch (Exception ex)
         {
-
-            Console.WriteLine("error occurred: " + ex.Message);
-
+            Console.WriteLine("Error occurred: " + ex.Message);
         }
 
-        return -1;
+        return -1; // Return -1 if the substring is not found
     }
+
 
     // Return the character at index i (3 marks).
     public char CharAt(int i)
