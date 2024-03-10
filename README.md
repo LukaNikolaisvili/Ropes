@@ -33,19 +33,19 @@ FREDERICK NKWONTA
 
 ### Generated result
 
-![alt](screenshots\intro-to-cloud.d49bc5f7.jpeg)
+![alt](.\screenshots\intro-to-cloud.d49bc5f7.jpeg)
 
 ### Acceptance 
 
-![alt](screenshots\intro-to-cloud.d49bc5f7.jpeg)
+![alt](.\screenshots\intro-to-cloud.d49bc5f7.jpeg)
 
 
 ## case 2
 
 ### Generated result
 
-![alt](screenshots\intro-to-cloud.d49bc5f7.jpeg)
+![alt](.\screenshots\intro-to-cloud.d49bc5f7.jpeg)
 
 ### Acceptance 
 
-![alt](screenshots\intro-to-cloud.d49bc5f7.jpeg)
+![alt](.\screenshots\intro-to-cloud.d49bc5f7.jpeg)
