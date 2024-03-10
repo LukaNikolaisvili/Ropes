@@ -735,7 +735,7 @@ public class Rope
             // User interface
             Console.WriteLine("\nHello, you can perform any of these operations!");
             Console.WriteLine("-----------------");
-            Console.WriteLine("1 - Insert\n2 - Split\n3 - Delete\n4 - Reverse\n5 - Print\n6 - ToString\n7 - Substring\n8 - Find\n9 - Remove\n0 - Build\nx - Exit");
+            Console.WriteLine("1 - Insert\n2 - Split\n3 - Delete\n4 - Reverse\n5 - Print\n6 - ToString\n7 - Substring\n8 - Find\n9 - CharAt\n10 - IndexOf\n11 - Build\n12 - Rebalance\n13 - Concatenate\n14 - Split\n0 - Exit\n");
             Console.WriteLine("-----------------");
             Console.WriteLine("Enter the UID of the operation: ");
 
@@ -862,7 +862,7 @@ public class Rope
             }
 
 
-
+            // substring call
             else if (op == "7")
             {
                 Console.WriteLine("You chose substring...\n");
@@ -893,30 +893,100 @@ public class Rope
 
             }
 
-
+            //Find Call
             else if (op == "8")
             {
-                Console.WriteLine("You chose Find! ");
-                Console.WriteLine("\nPlease enter the string that you want to find:\n ");
+                Console.WriteLine("Find operation:");
+                Console.Write("Enter the string to find: ");
+                string input = Console.ReadLine();
+                int Index = rope.Find(input);
 
-                string findString = Console.ReadLine();
-
-                if (findString != null)
+                if (Index != -1)
                 {
-                    Console.WriteLine(rope.Find(findString));
+                    Console.WriteLine($"String '{input}' found at index: {Index}");
                 }
-
                 else
                 {
-                    Console.WriteLine("Oops something went wrong!");
+                    Console.WriteLine($"String '{input}' not found: {Index}");
                 }
-
             }
 
 
+            // ChatAT call 
             else if (op == "9")
             {
-                
+                Console.WriteLine("CharAt operation:");
+                Console.Write("Enter the index of the character: ");
+                string input = Console.ReadLine();
+
+                if (int.TryParse(input, out int index))
+                {
+                    char character = rope.CharAt(index);
+                    if (character != '\0')
+                    {
+                        Console.WriteLine($"Character at index {index}: '{character}'");
+                    }
+                    else
+                    {
+                        Console.WriteLine("Index out of range.");
+                    }
+                }
+                else
+                {
+                    Console.WriteLine("Invalid input. Please enter a valid integer index.");
+                }
+            }
+
+            //Indexof Call
+            else if (op == "10")
+            {
+                Console.WriteLine("IndexOf operation:");
+                Console.Write("Enter the character: ");
+                string input = Console.ReadLine();
+
+                if (input.Length == 1)
+                {
+                    char character = input[0];
+                    int index = rope.IndexOf(character);
+
+                    if (index != -1)
+                    {
+                        Console.WriteLine($"Index of '{character}': {index}");
+                    }
+                    else
+                    {
+                        Console.WriteLine($"Character '{character}' not found in the rope.");
+                    }
+                }
+                else
+                {
+                    Console.WriteLine("Invalid input. Please enter a single character.");
+                }
+            }
+            //Build Call
+            else if (op == "11")
+            {
+
+                Console.WriteLine(rope.LengthRope());
+            }
+            else if (op == "12")
+            {
+
+                Console.WriteLine(rope.LengthRope());
+            }
+            else if (op == "13")
+            {
+
+                Console.WriteLine(rope.LengthRope());
+            }
+            else if (op == "14")
+            {
+
+                Console.WriteLine(rope.LengthRope());
+            }
+            else if (op == "15")
+            {
+
                 Console.WriteLine(rope.LengthRope());
             }
 
@@ -940,7 +1010,6 @@ public class Rope
 
 
     }
-
 
 
 
