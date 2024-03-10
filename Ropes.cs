@@ -114,40 +114,55 @@ public class Rope
     // Return the substring S[i; j] (6 marks).
     public string Substring(int i, int j)
     {
+        int L = LengthRope();
         try
         {
-            string substring;
-            // Split the rope from indices i to j
-            // Make a node that stores up until index i
-            Node leftPart = Split(root, i);
-            // Node that holds the substring
-            Node middlePart = Split(leftPart.Right, j - i);
-            // Node to hold remainer
-            Node rightPart = middlePart.Right;
-
-            // Get the substring
-            substring = middlePart.ToString();
-
-            // Concatenate the middle tree and the right tree to undo latest split
-            root = Concatenate(middlePart, rightPart);
-
-            // Undo first split
-            root = Concatenate(leftPart, root);
-            
-            if (substring == null) {
-                substring = "";
+            // If indices are out of range or invalid, return an empty string.
+            if (i < 0 || j < 0 || i > j || j > L)
+            {
+                return "";
             }
-            
-            return substring;
 
+            StringBuilder sb = new StringBuilder(); // StringBuilder to store the substring
+            for (int index = i; index < j + 1; index++)
+            {
+                char c = CharAt(index); // Get character at the current index
+                sb.Append(c); // Append character to StringBuilder
+            }
+
+            return sb.ToString(); // Return the constructed substring
         }
         catch (Exception ex)
         {
-            Console.WriteLine("error occurred: " + ex.Message);
+            Console.WriteLine("An error occurred: " + ex.Message);
+            return ""; // Return an empty string to indicate an error.
         }
-        // Worst case scenario send nothing
-        return "";
     }
+
+    // helper method for substring 
+    public int LengthRope()
+    {
+        try
+        {
+            // Check if root is not null
+            if (root != null)
+            {
+                // Length is the size value stored in the root node
+                return root.Size;
+            }
+            else
+            {
+                // If root is null, rope has length 0
+                return 0;
+            }
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine("An error occurred:" + ex.Message);
+            return 0;
+        }
+    }
+
     // Return the index of the rst occurrence of S; -1 otherwise (9 marks).
     public int Find(string S)
     {
@@ -218,15 +233,13 @@ public class Rope
         }
     }
 
-
-    // Return the index of the rest occurrence of character c (4 marks).
     // Return the index of the first occurrence of character c (4 marks).
     public int IndexOf(char c)
     {
         return IndexOf(root, c);
     }
 
-    // Recursive helper function to find the index of character c in the rope rooted at node.
+    // private Recursive function to find the index of character c in the rope rooted at node.
     private int IndexOf(Node node, char c)
     {
         try
