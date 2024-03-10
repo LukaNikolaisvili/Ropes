@@ -20,15 +20,19 @@ node has two non-empty children (4 marks).
 
 using System.Text;
 
+// Program
 public class Rope
 {
+    // Node class to use in other methods
     private class Node
     {
+        // Properties
         public string Value;
         public int Size;
         public Node Left;
         public Node Right;
 
+        // Node Constructor
         public Node(string value)
         {
             Value = value;
@@ -45,13 +49,14 @@ public class Rope
         }
     }
 
-    private Node root;
-    Node node = new Node(null);
+    private Node root; // Node called root to use in other operations
+    Node node = new Node(null); // Public Node to use for testing.
 
 
+    // Method thart starts the rope making process
+    // Calls Build method to build the rope
     public Rope(string S)
     {
-        // String st = new("Hi");
         root = Build(S, 0, S.Length);
     }
 
@@ -60,12 +65,16 @@ public class Rope
     {
         try
         {
+            // Split the node at index i
             Node rightSide = Split(this.root, i);
 
+            // Create a new node to hole the string to be inserted
             Node newNode = new Node(S);
 
+            // concatenate the current node with the new node
             Node leftSide = Concatenate(this.root, newNode);
 
+            // concatenate the left side of the tree with the tree exported from split
             this.root = Concatenate(leftSide, rightSide);
 
         }
@@ -74,22 +83,20 @@ public class Rope
             Console.WriteLine("error occurred: " + ex.Message);
 
         }
-
-
-        //root.value
-        // Console.WriteLine(newNode.Value); // it should be the root.value but the build method is not working for the Rope class!
-
-
     }
+
     // Delete the substring S[i; j] (5 marks).
     public void Delete(int i, int j)
     {
 
         try
         {
-            // Split the rope at indices i and j
+            // Split the rope from indices i to j
+            // Make a node that stores up until index i
             Node leftPart = Split(root, i);
+            // Make a node that holds the string to be deleted
             Node middlePart = Split(leftPart.Right, j - i);
+            // Node to hold remainer
             Node rightPart = middlePart.Right;
 
             // Discard the middle part (substring to be deleted)
@@ -101,16 +108,44 @@ public class Rope
         catch (Exception ex)
         {
             Console.WriteLine("error occurred: " + ex.Message);
-
         }
-
-
     }
 
     // Return the substring S[i; j] (6 marks).
     public string Substring(int i, int j)
     {
+        try
+        {
+            string substring;
+            // Split the rope from indices i to j
+            // Make a node that stores up until index i
+            Node leftPart = Split(root, i);
+            // Node that holds the substring
+            Node middlePart = Split(leftPart.Right, j - i);
+            // Node to hold remainer
+            Node rightPart = middlePart.Right;
 
+            // Get the substring
+            substring = middlePart.ToString();
+
+            // Concatenate the middle tree and the right tree to undo latest split
+            root = Concatenate(middlePart, rightPart);
+
+            // Undo first split
+            root = Concatenate(leftPart, root);
+            
+            if (substring == null) {
+                substring = "";
+            }
+            
+            return substring;
+
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine("error occurred: " + ex.Message);
+        }
+        // Worst case scenario send nothing
         return "";
     }
     // Return the index of the rst occurrence of S; -1 otherwise (9 marks).
@@ -132,36 +167,42 @@ public class Rope
             Console.WriteLine("error occurred: " + ex.Message);
 
         }
-
-
-
         return -1;
     }
+
     // Return the character at index i (3 marks).
     public char CharAt(int i)
     {
         try
         {
+            // Set current node as passed node
             Node current = this.root;
 
+            // If not a null node proceed
             while (current != null)
             {
+                // If left child is not null and i is less than the size
                 if (current.Left != null && i < current.Left.Size)
                 {
+                    // Swap to the left child
                     current = current.Left;
                 }
-                else
+                else // Otherwise
                 {
-                    if (current.Left != null)
+                    if (current.Left != null) // If left exists but i is greater
                     {
+                        // Subtract size of left tree
                         i -= current.Left.Size;
                     }
 
+                    // If there is a value in the current node
+                    // and i is within the node, return the character
                     if (current.Value != null && i < current.Value.Length)
                     {
                         return current.Value[i];
                     }
 
+                    // Recursively call the function on the right child otherwise
                     current = current.Right;
                 }
             }
@@ -190,6 +231,7 @@ public class Rope
     {
         try
         {
+            // Error if node is null
             if (node == null)
                 return -1;
 
@@ -226,13 +268,19 @@ public class Rope
     {
         try
         {
-            if (this.root == null) return;
+            // If the node is null, exit
+            if (this.root == null) { return; }
 
+            // Make a stack to hold the nodes for traveral
             Stack<Node> stack = new Stack<Node>();
+            // Put passed node onto stack
             stack.Push(this.root);
 
+
+            // If nodes are in the stack keep running
             while (stack.Count > 0)
             {
+                // Make current node the latest value popped off the stack
                 Node current = stack.Pop();
 
                 // If the node is not a leaf, it has children to be processed
@@ -244,6 +292,7 @@ public class Rope
                     current.Right = temp;
 
 
+                    // Push children if they exist
                     if (current.Left != null)
                     {
                         stack.Push(current.Left);
@@ -285,10 +334,12 @@ public class Rope
             // Check if node is not null and size is not zero
             if (node != null && node.Size != 0)
             {
+                // Length is the size value stored in the node
                 return node.Size;
             }
             else
             {
+                // Nothing there so size is 0
                 return 0;
             }
         }
@@ -309,10 +360,12 @@ public class Rope
         {
             if (root == null)
             {
+                // No node so return empty string
                 return "";
             }
             else
             {
+                // Use stringbuilder and stack for recursion
                 StringBuilder strBuild = new StringBuilder();
                 Stack<Node> stack = new Stack<Node>();
                 stack.Push(root);
@@ -323,22 +376,25 @@ public class Rope
 
                     if (curr.Value != null)
                     {
+                        // If value in current node add to the stringbuilder
                         strBuild.Append(curr.Value);
                     }
                     else
                     {
                         if (curr.Right != null)
                         {
+                            // Add right child onto stack
                             stack.Push(curr.Right);
                         }
 
                         if (curr.Left != null)
                         {
+                            // Add left child onto stack
                             stack.Push(curr.Left);
                         }
                     }
                 }
-
+                // Return the built string
                 return strBuild.ToString();
             }
         }
@@ -366,17 +422,20 @@ public class Rope
                 return;
             }
 
+            // Create indentation for node printing
             string indent = new String(' ', indentation * 2);
 
             if (node.Value != null)
             {
+                // If the node has a string print with this format
                 Console.WriteLine("{0}( Size: {1} | Value: '{2}' )", indent, node.Size, node.Value);
             }
             else
             {
+                // If node is only size print using this format
                 Console.WriteLine("{0}( Size: {1} )", indent, node.Size);
             }
-
+            // Print children with same indent
             PrintNode(node.Left, indentation + 2);
             PrintNode(node.Right, indentation + 2);
         }
@@ -433,16 +492,20 @@ public class Rope
         {
             Node root = new Node(null);
 
+            // If any of the passed nodes are null, exit.
             if (p == null || q == null)
             {
                 return null;
             }
             else
             {
+                // Otherwise set the nodes to the left and right children
                 root.Left = p;
                 root.Right = q;
+                // Sum their size for the parent node's size
                 root.Size = p.Size + q.Size;
 
+                // If passed two leaf nodes, set parent node to hold value
                 if (p.Left == null && p.Right == null && q.Left == null && q.Right == null)
                 {
                     root.Value = p.Value + q.Value;
@@ -483,41 +546,83 @@ public class Rope
     {
         try
         {
-            int goLeft;
 
-            if (p == null)
+            int LeftSize; // Store the size of the left child
+            Node rightChild;
+            Node result;
+
+            // If the passed node is null return null.
+            // If the passed index is out of bounds return null.
+            if (p == null || i < 0)
             {
+                Console.WriteLine("The passed node does not exist!");
                 return null;
             }
 
-            if (p.Left != null)
+            // Validate the right child exists as well.
+            if (p.Right != null)
             {
-                goLeft = p.Left.Size;
+                rightChild = p.Right;
             }
             else
             {
-                goLeft = 0;
+                rightChild = null;
             }
 
-            if (i <= goLeft)
+            // If left child isn't null save its value
+            if (p.Left != null)
             {
-                p.Left = Split(p.Left, i);
-                return p;
+                LeftSize = p.Left.Size;
+            }
+            // Otherwise set value to -1
+            else
+            {
+                LeftSize = -1;
+            }
+
+            // If the position passed is smaller or equal to the size of the left subtree, it means
+            // the split location is left. Recursively call for left node.
+            if (i <= LeftSize)
+            {
+                result = Split(p.Left, i);
             }
             else
             {
-                i -= goLeft;
-                Node rightSide = Split(p.Right, i);
-                p.Right = rightSide;
-                return rightSide;
+                // Subtract the size of the left subtree from i, 
+                // this way recursive if statements still work for the right side.
+                i -= LeftSize;
+                result = Split(rightChild, i);
             }
+
+            //After all recursion is done and you are in the desired leaf node
+            // Split!
+            int length = p.Size; // Save the length
+            int j;              // Int for looping
+                                // Create and set left and right children
+            Node leftsplit = new Node(null);
+            Node rightsplit = new Node(null);
+            p.Left = leftsplit;
+            p.Right = rightsplit;
+
+            // Set sizes of children
+            leftsplit.Size = i + 1; // i + 1 as indices start at 0
+            rightsplit.Size = length - (leftsplit.Size); // remaining length for the right node
+            string word = p.Value;
+            string left = word.Substring(0, leftsplit.Size);
+            string right = word.Substring(leftsplit.Size);
+            leftsplit.Value = left;
+            rightsplit.Value = right;
+
+            p.Value = null;
+
+            // TODO make the red line!
         }
         catch (Exception ex)
         {
             // Handle the exception here, you can log it or perform any other necessary actions.
             Console.WriteLine("error occurred: " + ex.Message);
-            return null;
         }
+        return null;
     }
 
 
@@ -540,8 +645,7 @@ public class Rope
 
     public static void Main(string[] args)
     {
-
-
+        // Testing nodes
         Node node = new Node("LUKA");
         Node node1 = new Node("NIKOLAISVILI");
         Rope rope = new Rope(node.Value + node1.Value);
@@ -595,6 +699,7 @@ public class Rope
 
         while (flag)
         {
+            // User interface
             Console.WriteLine("\nHello, you can perform any of these operations!");
             Console.WriteLine("-----------------");
             Console.WriteLine("1 - Insert\n2 - split\n3 - delete\n4 - Reverse\n5 - print\n6 - ToString\n7 - remove\n8 - build\n9 - remove\n0 - build\nx - exit");
@@ -604,6 +709,7 @@ public class Rope
             string op = Console.ReadLine();
 
 
+            // Insertion test call
             if (op == "1")
             {
                 Console.WriteLine("\nyou chose Insert!\n");
@@ -621,6 +727,7 @@ public class Rope
 
             }
 
+            // Split test call
             else if (op == "2")
             {
                 Console.WriteLine("\nyou chose Split!\n");
@@ -644,6 +751,7 @@ public class Rope
 
             }
 
+            // Deletion test call
             else if (op == "3")
             {
                 Console.WriteLine("\nyou chose delete!\n");
@@ -671,6 +779,7 @@ public class Rope
 
             }
 
+            // Reverse call
             else if (op == "4")
             {
                 Console.WriteLine("\nyou chose Reverse!\n");
@@ -686,6 +795,7 @@ public class Rope
 
             }
 
+            // Print Call
             else if (op == "5")
             {
                 Console.WriteLine("you chose print!");
@@ -697,7 +807,7 @@ public class Rope
 
             }
 
-
+            // String conversion call
             else if (op == "6")
             {
                 Console.WriteLine("you chose ToString!");
@@ -749,8 +859,13 @@ public class Rope
 
             }
 
+<<<<<<< HEAD
 
             else if (op == "x")
+=======
+            // Program Exit call
+            else if (op == "0")
+>>>>>>> 0982d59f78ec53a0213326c2e4ecf1619ab9afc5
             {
                 Console.WriteLine("Exiting...");
                 flag = false;
