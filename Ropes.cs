@@ -163,7 +163,7 @@ public class Rope
         }
     }
 
-    // Return the index of the rst occurrence of S; -1 otherwise (9 marks).
+    // Return the index of the first occurrence of S; -1 otherwise (9 marks).
     public int Find(string S)  //finish Find ***
     {
 
@@ -713,13 +713,13 @@ public class Rope
         while (flag)
         {
             // User interface
-           Console.WriteLine("\nHello, you can perform any of these operations!");
-        Console.WriteLine("-----------------");
-        Console.WriteLine("1 - Insert\n2 - Split\n3 - Delete\n4 - Reverse\n5 - Print\n6 - ToString\n7 - Substring\n8 - Build\n9 - Remove\n0 - Build\nx - Exit");
-        Console.WriteLine("-----------------");
-        Console.WriteLine("Enter the UID of the operation: ");
+            Console.WriteLine("\nHello, you can perform any of these operations!");
+            Console.WriteLine("-----------------");
+            Console.WriteLine("1 - Insert\n2 - Split\n3 - Delete\n4 - Reverse\n5 - Print\n6 - ToString\n7 - Substring\n8 - Build\n9 - Remove\n0 - Build\nx - Exit");
+            Console.WriteLine("-----------------");
+            Console.WriteLine("Enter the UID of the operation: ");
 
-        string op = Console.ReadLine();
+            string op = Console.ReadLine();
 
 
             // Insertion test call
@@ -842,20 +842,21 @@ public class Rope
                 string secondInput = Console.ReadLine();
                 bool convertStopIndexToInt = Int32.TryParse(secondInput, out int stopIndex);
 
-                 if (startIndex != -1 && stopIndex != -1 && stopIndex! > startIndex)
+                if (startIndex != -1 && stopIndex != -1 && stopIndex! > startIndex)
                 {
 
                     Console.WriteLine("from starting position " + startIndex + " until the stop position " + stopIndex + " removed successfully!");
                     Console.WriteLine("The resultant string after applying substring is:\n ");
-                    Console.WriteLine(rope.Substring(startIndex,stopIndex));
+                    Console.WriteLine(rope.Substring(startIndex, stopIndex));
                 }
 
-                else{
+                else
+                {
                     Console.WriteLine("\nOOps something went wrong! ");
                 }
 
-                
-                
+
+
 
 
             }
