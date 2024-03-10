@@ -49,8 +49,16 @@ public class Rope
         }
     }
 
+   
+
     private Node root; // Node called root to use in other operations
     Node node = new Node(null); // Public Node to use for testing.
+
+     public bool IsLeaf
+    {
+        get { return node.Left == null && node.Right == null; }
+    }
+
 
 
     // Method thart starts the rope making process
@@ -77,7 +85,7 @@ public class Rope
                 // concatenate the current node with the new node
                 Node leftSide = Concatenate(this.root, newNode);
 
-                Console.WriteLine("The size of S is in IF:" + S.Length);
+                Console.WriteLine("The size of inserted word is:" + S.Length);
                 // concatenate the left side of the tree with the tree exported from split
                 this.root = Concatenate(leftSide, rightSide);
 
@@ -170,6 +178,30 @@ public class Rope
             return 0;
         }
     }
+
+
+    private int GetSize(Node node)
+{
+    try
+    {
+        if (node != null)
+        {
+            return node.Size;
+        }
+        else
+        {
+            return 0;
+        }
+    }
+    catch (Exception ex)
+    {
+        
+        Console.WriteLine("An error occurred in GetSize: " + ex);
+        
+        return 0;
+    }
+}
+
 
     // Return the index of the first occurrence of S; -1 otherwise (9 marks).
     public int Find(string S)
@@ -576,90 +608,50 @@ public class Rope
 
     // Split the rope with root p at index i and return the root of the right subtree (9 marks).
     private Node Split(Node p, int i)
+{
+    // Base case: if the node is null, simply return null.
+    if (p == null) return null;
+
+    // Calculate the cumulative size to determine where the split falls.
+    int leftSize = GetSize(p.Left);
+
+    if (i < leftSize)
     {
-        try
-        {
-
-            int LeftSize; // Store the size of the left child
-            Node rightChild;
-            Node result;
-
-            // If the passed node is null return null.
-            // If the passed index is out of bounds return null.
-            if (p == null || i < 0)
-            {
-                Console.WriteLine("The passed node does not exist!");
-                return null;
-            }
-
-            // Validate the right child exists as well.
-            if (p.Right != null)
-            {
-                rightChild = p.Right;
-            }
-            else
-            {
-                rightChild = null;
-            }
-
-            // If left child isn't null save its value
-            if (p.Left != null)
-            {
-                LeftSize = p.Left.Size;
-            }
-            // Otherwise set value to -1
-            else
-            {
-                LeftSize = -1;
-            }
-
-            // If the position passed is smaller or equal to the size of the left subtree, it means
-            // the split location is left. Recursively call for left node.
-            if (i <= LeftSize)
-            {
-                result = Split(p.Left, i);
-            }
-            else
-            {
-                // Subtract the size of the left subtree from i, 
-                // this way recursive if statements still work for the right side.
-                i -= LeftSize;
-                result = Split(rightChild, i);
-            }
-
-            //After all recursion is done and you are in the desired leaf node
-            // Split!
-            int length = p.Size; // Save the length
-            int j;              // Int for looping
-                                // Create and set left and right children
-            Node leftsplit = new Node(null);
-            Node rightsplit = new Node(null);
-            p.Left = leftsplit;
-            p.Right = rightsplit;
-
-            // Set sizes of children
-            leftsplit.Size = i + 1; // i + 1 as indices start at 0
-            rightsplit.Size = length - (leftsplit.Size); // remaining length for the right node
-            string word = p.Value;
-            string left = word.Substring(0, leftsplit.Size);
-            string right = word.Substring(leftsplit.Size);
-            leftsplit.Value = left;
-            rightsplit.Value = right;
-
-            p.Value = null;
-
-            // TODO make the red line!
-        }
-        catch (Exception ex)
-        {
-            // Handle the exception here, you can log it or perform any other necessary actions.
-            Console.WriteLine("error occurred: " + ex.Message);
-        }
-        return null;
+        // The split point is in the left subtree.
+        // Recursively split the left child.
+        Node rightSubtreeOfLeftSplit = Split(p.Left, i);
+        // Create a new node with the right subtree of the split left child as its left child,
+        // and the original right child as its right child.
+        return new Node(null) { // Assuming Node constructor and structure
+            Left = rightSubtreeOfLeftSplit,
+            Right = p.Right,
+            Size = GetSize(rightSubtreeOfLeftSplit) + GetSize(p.Right)
+        };
     }
-
-
-    // Rebalance the rope using the algorithm found on pages 1319-1320 of Boehm et al. (9 marks).
+    else
+    {
+        // The split point is in the right subtree or at the current node.
+        // Adjust the index relative to the right subtree.
+        i -= leftSize;
+        // If the split is within a leaf node's value, further logic is needed to split the string.
+        if (p.Left != null && i < p.Value.Length){
+            // Split the string in the leaf node.
+            string leftPart = p.Value.Substring(0, i);
+            string rightPart = p.Value.Substring(i);
+            // Update the current node's value and size to reflect the left part of the split.
+            p.Value = leftPart;
+            p.Size = leftPart.Length;
+            // Return a new node representing the right part of the split.
+            return new Node(rightPart) { Size = rightPart.Length };
+        }
+        else
+        {
+            // Recursively split the right child.
+            return Split(p.Right, i);
+        }
+    }
+}
+// Rebalance the rope using the algorithm found on pages 1319-1320 of Boehm et al. (9 marks).
     private Node Rebalance()
     {
         try
