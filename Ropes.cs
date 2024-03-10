@@ -750,7 +750,7 @@ public class Rope
             }
 
 
-            else if (op == "0")
+            else if (op == "x")
             {
                 Console.WriteLine("Exiting...");
                 flag = false;
