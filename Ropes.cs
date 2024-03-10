@@ -727,7 +727,7 @@ public class Rope
             // User interface
             Console.WriteLine("\nHello, you can perform any of these operations!");
             Console.WriteLine("-----------------");
-            Console.WriteLine("1 - Insert\n2 - Split\n3 - Delete\n4 - Reverse\n5 - Print\n6 - ToString\n7 - Substring\n8 - Build\n9 - Remove\n0 - Build\nx - Exit");
+            Console.WriteLine("1 - Insert\n2 - Split\n3 - Delete\n4 - Reverse\n5 - Print\n6 - ToString\n7 - Substring\n8 - Find\n9 - Remove\n0 - Build\nx - Exit");
             Console.WriteLine("-----------------");
             Console.WriteLine("Enter the UID of the operation: ");
 
