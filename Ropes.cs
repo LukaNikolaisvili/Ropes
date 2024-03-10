@@ -859,13 +859,8 @@ public class Rope
 
             }
 
-<<<<<<< HEAD
-
-            else if (op == "x")
-=======
             // Program Exit call
             else if (op == "0")
->>>>>>> 0982d59f78ec53a0213326c2e4ecf1619ab9afc5
             {
                 Console.WriteLine("Exiting...");
                 flag = false;
