@@ -575,7 +575,7 @@ public class Rope
 
 
     // Split the rope with root p at index i and return the root of the right subtree (9 marks).
-   private Node Split(Node p, int i)
+    private Node Split(Node p, int i)
     {
         try
         {
@@ -692,7 +692,7 @@ public class Rope
             // User interface
             Console.WriteLine("\nHello, you can perform any of these operations!");
             Console.WriteLine("-----------------");
-            Console.WriteLine("1 - Insert\n2 - Split\n3 - Delete\n4 - Reverse\n5 - Print\n6 - ToString\n7 - Substring\n8 - Find\n9 - CharAt\n10 - IndexOf\n11 - Build\n12 - Rebalance\n13 - Concatenate\n14 - Split\n0 - Exit\n");
+            Console.WriteLine("1 - Insert\n2 - Split\n3 - Delete\n4 - Reverse\n5 - Print\n6 - ToString\n7 - Substring\n8 - Find\n9 - CharAt\n10 - IndexOf\n0 - Exit\n");
             Console.WriteLine("-----------------");
             Console.WriteLine("Enter the UID of the operation: ");
 
@@ -920,33 +920,6 @@ public class Rope
                     Console.WriteLine("Invalid input. Please enter a single character.");
                 }
             }
-            //Build Call
-            else if (op == "11")
-            {
-
-                Console.WriteLine(rope.LengthRope());
-            }
-            else if (op == "12")
-            {
-
-                Console.WriteLine(rope.LengthRope());
-            }
-            else if (op == "13")
-            {
-
-                Console.WriteLine(rope.LengthRope());
-            }
-            else if (op == "14")
-            {
-
-                Console.WriteLine(rope.LengthRope());
-            }
-            else if (op == "15")
-            {
-
-                Console.WriteLine(rope.LengthRope());
-            }
-
             // Program Exit call
             else if (op == "0")
             {
