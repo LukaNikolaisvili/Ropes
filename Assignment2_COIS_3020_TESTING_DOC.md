@@ -102,7 +102,7 @@ FREDERICK NKWONTA
 
 - case 40 Concatenate LUKA WITH NIKOLAISVILI we should get LUKANIKOLAISVILI
   ![alt]()
-- case 41 Concatenate FreddyFarzad to this word
+- case 41 Concatenate Freddy with Farzad we should get FreddyFarzad
   ![alt]()
 - case 42
   ![alt]()
