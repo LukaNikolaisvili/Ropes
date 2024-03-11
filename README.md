@@ -1,5 +1,5 @@
 
-## 3020_ASSIGNMENT@2 TESTING DOCUMENT
+## 3020_ASSIGNMENT_2 TESTING DOCUMENT
 ### TEAM MEMBERS:
 LUKA NIKOLAISVILI
 
@@ -15,11 +15,11 @@ FREDERICK NKWONTA
  #### list all here
  ## Insert testing
 - case 1 Insert empty word at some index
-  ![alt]()
+  ![alt](./screenshots/image.png)
 - case 2 Insert some word on negative index
-  ![alt]()
+  ![alt](./screenshots/image1.png)
 - case 3 insert word on positive index
-  ![alt]()
+  ![alt](./screenshots/image2.png)
  ## Split testing
 - case 4 
  ![alt]()
