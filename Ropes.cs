@@ -1,4 +1,4 @@
-﻿/*
+﻿﻿/*
 COIS-3020 ASSIGNMENT 2
 CONTRIBUTORS:
 LUKA NIKOLAISVILI
@@ -506,15 +506,19 @@ public class Rope
             }
             else
             {
+             
                 //otherwise print this way 
                 Console.WriteLine(indent + "└ (Size: " + node.Size + ")");
             }
 
+         
             //recursive call of the printNOde with left side and childindentation level
             PrintNode(node.Left, childIndentation);
         }
         catch (Exception ex) //catching any occuring exceptions
+        
         {
+           
             //handling it with throwing this message
             Console.WriteLine("An error occurred: " + ex.Message);
         }
@@ -529,12 +533,16 @@ public class Rope
     {
         if (start >= end) return null;
         if (end - start <= 10) return new Node(str.Substring(start, end - start));
+       
         //finding the middle point
         int mid = start + (end - start) / 2;
+       
         //using calling the build method, passing the str , start and mid
         Node left = Build(str, start, mid);
+     
         //right side building using the build method, passing the str, mid and end
         Node right = Build(str, mid, end);
+        
         //creating the parent node with null
         Node parent = new Node(null)
         {
@@ -548,7 +556,6 @@ public class Rope
         //if the left is not empty then 
         if (left != null)
         {
-            //leftsize is same as left.size
             leftSize = left.Size;
         }
         //if right is not empty
@@ -606,7 +613,7 @@ public class Rope
                 root.Value = p.Value + q.Value;
 
             }
-            //returning root
+
             return root;
         }
         catch (Exception ex) //exception handling
@@ -621,14 +628,13 @@ public class Rope
     // Split the rope with root p at index i and return the root of the right subtree.
     private Node Split(Node node, int index)
     {
-        //checking if the node is null then we will return null
         if (node == null) return null;
-
+        
         int leftSize = node.Left?.Size ?? 0;
         int valueSize = node.Value?.Length ?? 0;
         //if the index < less the left size
         if (index < leftSize)
-        {
+        {   
             // Split needs to happen in the left subtree.
             Node splitRight = Split(node.Left, index);
             node.Left = splitRight; // Update the left subtree after the split.
@@ -719,20 +725,21 @@ public class Rope
         return parent;
     }
 
-    // Then, to rebalance the rope, you would call the Rebalance method and update the root.
+    // we are calling the rebalance method in the PerformRebalance method and in the future we will use this method to perform rebalance (PerformRebalance)
     public void PerformRebalance()
-    {
+    {   
         root = Rebalance();
     }
 
-
+    //main program where we will put everything together
     public static void Main(string[] args)
     {
-        // Testing nodes
-        // Node node = new Node("LUKA");
+        //setting up nodes
         Node node1 = new Node("NIKOLAISVILI");
         Node node2 = new Node("LUKA");
         Rope rope = new Rope(node1.Value);
+
+
 
 
         bool flag = true;
@@ -740,7 +747,7 @@ public class Rope
 
         while (flag)
         {
-            // User interface
+            // printnig User interface
             Console.WriteLine("\nHello, you can perform any of these operations!");
             Console.WriteLine("-----------------");
             Console.WriteLine("1 - Insert\n2 - Split\n3 - Delete\n4 - Reverse\n5 - Print\n6 - ToString\n7 - Substring\n8 - Find\n9 - CharAt\n10 - IndexOf\n0 - Rebalance\nx - Exit()\n");
