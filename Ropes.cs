@@ -61,7 +61,7 @@ public class Rope
     }
 
     // Insert string S at index i (5 marks).
-   // Insert string S at index i (5 marks).
+    // Insert string S at index i (5 marks).
     public void Insert(string S, int i)
     {
         try
@@ -95,7 +95,7 @@ public class Rope
                 }
                 else
                 {
-                    string L = Substring(0, i-1);
+                    string L = Substring(0, i - 1);
                     Node leftside = new Node(L);
 
                     // Split the node at index i
@@ -446,37 +446,45 @@ public class Rope
     }
 
     private void PrintNode(Node node, int indentation)
+{
+    try
     {
-        try
+        if (node == null)
         {
-            if (node == null)
-            {
-                return;
-            }
-
-            // Create indentation for node printing
-            string indent = new String(' ', indentation * 2);
-
-            if (node.Value != null)
-            {
-                // If the node has a string print with this format
-                Console.WriteLine("{0}( Size: {1} | Value: '{2}' )", indent, node.Size, node.Value);
-            }
-            else
-            {
-                // If node is only size print using this format
-                Console.WriteLine("{0}( Size: {1} )", indent, node.Size);
-            }
-            // Print children with same indent
-            PrintNode(node.Left, indentation + 2);
-            PrintNode(node.Right, indentation + 2);
+            // Skip printing "NULL" to avoid cluttering the output.
+            return;
         }
-        catch (Exception ex)
+
+        
+        int childIndentation = indentation + 4; 
+
+        
+        PrintNode(node.Right, childIndentation);
+
+       
+        string indent = new String(' ', indentation);
+
+        if (node.Value != null)
         {
-            // Handle the exception here, you can log it or perform any other necessary actions.
-            Console.WriteLine("An error occurred: " + ex.Message);
+         
+            Console.WriteLine(indent + "|__ (Size: " + node.Size + " | Value: '" + node.Value + "')");
         }
+        else
+        {
+         
+            Console.WriteLine(indent + "|__ (Size: " + node.Size + ")");
+        }
+
+      
+        PrintNode(node.Left, childIndentation);
     }
+    catch (Exception ex)
+    {
+     
+        Console.WriteLine("An error occurred: " + ex.Message);
+    }
+}
+
 
 
     //private methods
@@ -798,7 +806,7 @@ public class Rope
             else if (op == "5")
             {
                 Console.WriteLine("you chose print!");
-                Console.WriteLine("Printing...");
+                Console.WriteLine("Printing...\n");
                 rope.PrintRope();
 
 
