@@ -744,7 +744,7 @@ public class Rope
 
         bool flag = true;
 
-
+        //infinite loop
         while (flag)
         {
             // printnig User interface
