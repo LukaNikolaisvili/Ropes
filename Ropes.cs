@@ -210,42 +210,53 @@ public class Rope
                 return 0;
             }
         }
+        //cathing the exception (any that will occure)
         catch (Exception ex)
-        {
+        {   //writing the corresponding message dynamically based on the exceptions
             Console.WriteLine("An error occurred:" + ex.Message);
+            //return value 0 
             return 0;
         }
     }
 
     // Return the index of the first occurrence of S; -1 otherwise (9 marks).
     public int Find(string S)
-    {
+    {   
+        
+        //try catch block for the excpetion handling 
         try
         {
             // Start traversing the rope character by character
             for (int i = 0; i <= root.Size - S.Length; i++)
             {
-                // Check if the substring matches starting from the current position
+                // Check if the substring matches starting from the current position if found the flag will be updated to true
                 bool match = true;
+                //loop going from 0 till the end of the S length iterating...
                 for (int j = 0; j < S.Length; j++)
                 {
                     // Compare characters at each position
                     if (CharAt(i + j) != S[j])
-                    {
+                    {   
+                        //otherwise the flag will turn to false and break out
                         match = false;
                         break;
                     }
                 }
 
                 // If a match is found, return the index of the first character of the substring
+                //based on the flag if true it will return the i
                 if (match)
                     return i;
             }
         }
+
+        //catch exception
         catch (Exception ex)
-        {
+        {   
+            //exception catching with the message
             Console.WriteLine("Error occurred: " + ex.Message);
         }
+
 
         return -1; // Return -1 if the substring is not found
     }
@@ -269,7 +280,9 @@ public class Rope
                     current = current.Left;
                 }
                 else // Otherwise
-                {
+                {   
+
+                    //if the current.left is not null 
                     if (current.Left != null) // If left exists but i is greater
                     {
                         // Subtract size of left tree
@@ -279,7 +292,8 @@ public class Rope
                     // If there is a value in the current node
                     // and i is within the node, return the character
                     if (current.Value != null && i < current.Value.Length)
-                    {
+                    {   
+                        //return the ith index of the current Value 
                         return current.Value[i];
                     }
 
@@ -301,7 +315,8 @@ public class Rope
 
     // Return the index of the first occurrence of character c (4 marks).
     public int IndexOf(char c)
-    {
+    {   
+        //recursive call of the IndexOf method passing the root and char c
         return IndexOf(root, c);
     }
 
@@ -321,19 +336,25 @@ public class Rope
 
             // Check the current node
             if (node.Value != null)
-            {
+            {   
+                //saving the value of the node.value index of atthe char c location replies the index int
                 int indexInValue = node.Value.IndexOf(c);
+                //if its not -1
                 if (indexInValue != -1)
+                //it will compute the total size of the left subtree of a binary tree node, and adding the additional index value which is the position of the nodes value
                     return (node.Left != null ? node.Left.Size : 0) + indexInValue;
             }
 
             // Search in the right subtree
             int rightIndex = IndexOf(node.Right, c);
             if (rightIndex != -1)
+                // it calculates the total size, left subtree size or 0 if null
                 return (node.Left != null ? node.Left.Size : 0) + (node.Value != null ? node.Value.Length : 0) + rightIndex;
 
             return -1; // Character not found in the rope
-        }
+        }  
+
+        //exception handling
         catch (Exception ex)
         {
             // Handle the exception here, you can log it or perform any other necessary actions.
@@ -371,33 +392,37 @@ public class Rope
 
                     // Push children if they exist
                     if (current.Left != null)
-                    {
+                    {   
+                        //push the current.left value in the stack
                         stack.Push(current.Left);
                     }
-
+                    //checking if the current.right is not null
                     if (current.Right != null)
-                    {
+                    {   //we will add the current.right in the stack
                         stack.Push(current.Right);
                     }
                 }
-                else
+                else   
                 {
                     // Directly reverse the string for leaf nodes
                     char[] charArray = current.Value.ToCharArray();
+                    //reversing the charArray using the Reverse method could have done with the for loop... but its also efficient and fast
                     Array.Reverse(charArray);
+                    //using the stringbuilder class creating the new string with the length of CharArray.length
                     StringBuilder reversedString = new StringBuilder(charArray.Length);
                     for (int i = charArray.Length - 1; i >= 0; i--)
-                    {
+                    {   
+                        //using the string builder we are adding the reversed string in the chararray
                         reversedString.Append(charArray[i]);
                     }
-
+                    //current value will be the same as the reversedString value
                     current.Value = reversedString.ToString();
                 }
             }
-        }
+        }//exception handling
         catch (Exception ex)
         {
-
+            //print the message with exception
             Console.WriteLine("An error occurred" + ex.Message);
 
         }
@@ -419,60 +444,64 @@ public class Rope
                 // Nothing there so size is 0
                 return 0;
             }
-        }
+        }  //exception handling
         catch (Exception ex)
         {
-
+            //printing the exception
             Console.WriteLine("An error occurred:" + ex.Message);
 
-
+            //return 0
             return 0;
         }
     }
 
     // Return the string represented by the current rope (4 marks).
     public override string ToString()
-    {
+    {   //returning the Tostring(root) recursive call
         return ToString(root);
     }
 
-    
+    //private method for the ToString parameter is a Node node
     private string ToString(Node node)
-    {
+    {   
+        //checking if the node is equal to null we will return the empty string 
         if (node == null) return "";
+        //if node content is not null
         if (node.Value != null)
-        {
+        {   //we will return its value
             return node.Value;
         }
+        //we will return left and right side joint strings
         return ToString(node.Left) + ToString(node.Right);
     }
 
     // Print the augmented binary tree of the current rope (4 marks).
     public void PrintRope()
-    {
+    {   //recursive call of PrintRope method Runtime stack...
         PrintNode(this.root, 0);
     }
 
+    //PrintNode method parameters node and indentation ***strength***
     private void PrintNode(Node node, int indentation)
-    {
+    {   //try catch block 
         try
-        {
+        {   //checking if node is empty
             if (node == null)
             {
                 // Skip printing "NULL" to avoid cluttering the output.
                 return;
             }
             
-
+            //indentation level for the children nodes are + 4
             int childIndentation = indentation + 4;
-
+            //recursive call right side of the node and number of the indentation
             PrintNode(node.Right, childIndentation);
-
+            
             string indent = new String(' ', indentation);
-
+        //if the value of the node is not null then 
             if (node.Value != null)
-            {
-
+            {   
+                // we will write the following nicely formated kinda tree looking structure, used UTF 8 type └ 
                 Console.WriteLine(indent + " └ (Size: " + node.Size + " | Value: '" + node.Value + "')");
             }
             else
