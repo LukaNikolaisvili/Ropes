@@ -1,4 +1,4 @@
-﻿﻿/*
+﻿/*
 COIS-3020 ASSIGNMENT 2
 CONTRIBUTORS:
 LUKA NIKOLAISVILI
@@ -61,18 +61,15 @@ public class Rope
     }
 
     // Insert string S at index i (5 marks).
-    // Insert string S at index i (5 marks).
     public void Insert(string S, int i)
     {
         try
         {
-
+            //vaildated user input 
             if (S != "" || i == -1)
             {
                 if (i == 1)
                 {
-                    // string L = Substring (0,i);
-                    // Node leftside = new Node(L);
 
                     // Split the node at index i
                     Node rightSide = (this.root);
@@ -80,21 +77,16 @@ public class Rope
                     // Create a new node to hole the string to be inserted
                     Node newNode = new Node(S);
 
-
-
-                    // concatenate the current node with the new node
-                    // Node leftSide = Concatenate(this.root, newNode);
-
                     Console.WriteLine("The size of S is in IF:" + S.Length);
 
-
-                    // concatenate the left side of the tree with the tree exported from split
+                    // concatenate the new node with the existing rope
                     this.root = Concatenate(newNode, rightSide);
 
 
                 }
                 else
                 {
+                    // left part of the node  
                     string L = Substring(0, i - 1);
                     Node leftside = new Node(L);
 
@@ -104,20 +96,13 @@ public class Rope
                     // Create a new node to hole the string to be inserted
                     Node newNode = new Node(S);
 
-
-                    // concatenate the current node with the new node
-                    // Node leftSide = Concatenate(this.root, newNode);
-
                     Console.WriteLine("The size of S is in IF:" + S.Length);
 
-
-                    // concatenate the left side of the tree with the tree exported from split
+                    // concatenate the right side with the new node 
                     Node v1 = Concatenate(newNode, rightSide);
+                    // concatenate the left side with the right side and new node 
                     this.root = Concatenate(leftside, v1);
-
                 }
-
-
 
             }
         }
@@ -137,11 +122,11 @@ public class Rope
         try
         {
             // Split the rope from indices i to j
-            // Make a node that stores up until index i
+            // stores up the left side of the node 
             Node leftPart = Split(root, i);
             // Make a node that holds the string to be deleted
             Node middlePart = Split(leftPart.Right, j - i);
-            // Node to hold remainer
+            // store up to the right side of the node 
             Node rightPart = middlePart.Right;
 
             // Discard the middle part (substring to be deleted)
@@ -162,7 +147,7 @@ public class Rope
         int L = LengthRope();
         try
         {
-            // If indices are out of range or invalid, return an empty string.
+            // validated user input 
             if (i < 0 || j < 0 || i > j || j > L)
             {
                 return "";
@@ -346,7 +331,6 @@ public class Rope
             // Put passed node onto stack
             stack.Push(this.root);
 
-
             // If nodes are in the stack keep running
             while (stack.Count > 0)
             {
@@ -360,7 +344,6 @@ public class Rope
                     Node temp = current.Left;
                     current.Left = current.Right;
                     current.Right = temp;
-
 
                     // Push children if they exist
                     if (current.Left != null)
@@ -446,44 +429,41 @@ public class Rope
     }
 
     private void PrintNode(Node node, int indentation)
-{
-    try
     {
-        if (node == null)
+        try
         {
-            // Skip printing "NULL" to avoid cluttering the output.
-            return;
+            if (node == null)
+            {
+                // Skip printing "NULL" to avoid cluttering the output.
+                return;
+            }
+
+            int childIndentation = indentation + 4;
+
+            PrintNode(node.Right, childIndentation);
+
+            string indent = new String(' ', indentation);
+
+            if (node.Value != null)
+            {
+
+                Console.WriteLine(indent + " └ (Size: " + node.Size + " | Value: '" + node.Value + "')");
+            }
+            else
+            {
+
+                Console.WriteLine(indent + "└ (Size: " + node.Size + ")");
+            }
+
+
+            PrintNode(node.Left, childIndentation);
         }
-
-        
-        int childIndentation = indentation + 4; 
-
-        
-        PrintNode(node.Right, childIndentation);
-
-       
-        string indent = new String(' ', indentation);
-
-        if (node.Value != null)
+        catch (Exception ex)
         {
-         
-            Console.WriteLine(indent + " └ (Size: " + node.Size + " | Value: '" + node.Value + "')");
-        }
-        else
-        {
-         
-            Console.WriteLine(indent + "└ (Size: " + node.Size + ")");
-        }
 
-      
-        PrintNode(node.Left, childIndentation);
+            Console.WriteLine("An error occurred: " + ex.Message);
+        }
     }
-    catch (Exception ex)
-    {
-     
-        Console.WriteLine("An error occurred: " + ex.Message);
-    }
-}
 
 
 
@@ -623,61 +603,61 @@ public class Rope
 
     // Rebalance the rope using the algorithm found on pages 1319-1320 of Boehm et al. (9 marks).
     private Node Rebalance()
-{
-    // Collect all leaves into a list.
-    List<string> leaves = new List<string>();
-    CollectLeaves(root, leaves);
-
-    // Rebuild the tree from the collected leaves.
-    return RebuildTree(leaves, 0, leaves.Count);
-}
-
-private void CollectLeaves(Node node, List<string> leaves)
-{
-    if (node == null) return;
-
-    // If this is a leaf node (has a value), add it to the list.
-    if (node.Value != null)
     {
-        leaves.Add(node.Value);
+        // Collect all leaves into a list.
+        List<string> leaves = new List<string>();
+        CollectLeaves(root, leaves);
+
+        // Rebuild the tree from the collected leaves.
+        return RebuildTree(leaves, 0, leaves.Count);
     }
-    else
+
+    private void CollectLeaves(Node node, List<string> leaves)
     {
-        // Otherwise, recursively collect leaves from both subtrees.
-        CollectLeaves(node.Left, leaves);
-        CollectLeaves(node.Right, leaves);
+        if (node == null) return;
+
+        // If this is a leaf node (has a value), add it to the list.
+        if (node.Value != null)
+        {
+            leaves.Add(node.Value);
+        }
+        else
+        {
+            // Otherwise, recursively collect leaves from both subtrees.
+            CollectLeaves(node.Left, leaves);
+            CollectLeaves(node.Right, leaves);
+        }
     }
-}
 
-private Node RebuildTree(List<string> leaves, int start, int end)
-{
-    // Base case: when the range is invalid.
-    if (start >= end) return null;
-
-    // Base case: when there's only one element in the range, create a leaf node.
-    if (start == end - 1) return new Node(leaves[start]);
-
-    // Recursive case: split the leaves into two roughly equal halves and build subtrees.
-    int mid = start + (end - start) / 2;
-    Node left = RebuildTree(leaves, start, mid);
-    Node right = RebuildTree(leaves, mid, end);
-
-    // Create a new parent node for the two subtrees.
-    Node parent = new Node(null)
+    private Node RebuildTree(List<string> leaves, int start, int end)
     {
-        Left = left,
-        Right = right,
-        Size = (left != null ? left.Size : 0) + (right != null ? right.Size : 0)
-    };
+        // Base case: when the range is invalid.
+        if (start >= end) return null;
 
-    return parent;
-}
+        // Base case: when there's only one element in the range, create a leaf node.
+        if (start == end - 1) return new Node(leaves[start]);
 
-// Then, to rebalance the rope, you would call the Rebalance method and update the root.
-public void PerformRebalance()
-{
-    root = Rebalance();
-}
+        // Recursive case: split the leaves into two roughly equal halves and build subtrees.
+        int mid = start + (end - start) / 2;
+        Node left = RebuildTree(leaves, start, mid);
+        Node right = RebuildTree(leaves, mid, end);
+
+        // Create a new parent node for the two subtrees.
+        Node parent = new Node(null)
+        {
+            Left = left,
+            Right = right,
+            Size = (left != null ? left.Size : 0) + (right != null ? right.Size : 0)
+        };
+
+        return parent;
+    }
+
+    // Then, to rebalance the rope, you would call the Rebalance method and update the root.
+    public void PerformRebalance()
+    {
+        root = Rebalance();
+    }
 
 
     public static void Main(string[] args)
@@ -687,8 +667,8 @@ public void PerformRebalance()
         Node node1 = new Node("NIKOLAISVILI");
         Node node2 = new Node("LUKA");
         Rope rope = new Rope(node1.Value);
-      
-       
+
+
         // Console.WriteLine(rope.Split(node, 1));
 
         // Console.WriteLine(node.Value);
@@ -720,7 +700,7 @@ public void PerformRebalance()
         // rope.PrintRope();
 
 
-    rope.Delete(0,2);
+        rope.Delete(0, 2);
 
 
 
@@ -816,7 +796,7 @@ public void PerformRebalance()
                 string secondInput = Console.ReadLine();
                 bool convertStopIndexToInt = Int32.TryParse(secondInput, out int stopIndex);
 
-                if (startIndex != -1 && stopIndex != -1 && stopIndex !> startIndex)
+                if (startIndex != -1 && stopIndex != -1 && stopIndex! > startIndex)
                 {
 
                     rope.Delete(startIndex, stopIndex);
@@ -981,8 +961,8 @@ public void PerformRebalance()
 
                 Console.WriteLine("Rebalanced Succesfully! ");
 
-            
-              
+
+
 
 
             }
