@@ -119,21 +119,45 @@ public class Rope
     public void Delete(int i, int j)
     {
 
+
         try
         {
-            // Split the rope from indices i to j
-            // stores up the left side of the node 
-            Node leftPart = Split(root, i);
-            // Make a node that holds the string to be deleted
-            Node middlePart = Split(leftPart.Right, j - i);
-            // store up to the right side of the node 
-            Node rightPart = middlePart.Right;
+            if (i == 0)
+            {
+                // Split the rope from indices i to j
+                // stores up the left side of the node 
+                // Node leftPart = Split(root, i - 1);
+                // Make a node that holds the string to be deleted
+                Node middlePart = Split(root, j - i);
+                // store up to the right side of the node 
+                Node rightPart = middlePart.Right;
 
-            // Discard the middle part (substring to be deleted)
-            middlePart = null;
+                // Discard the middle part (substring to be deleted)
+                // leftPart = null;
 
-            // Concatenate the left and right parts
-            root = Concatenate(leftPart, rightPart);
+
+                // Concatenate the left and right parts
+                root = Concatenate(middlePart, rightPart);
+
+            }
+            else
+            {
+                // Split the rope from indices i to j
+                // stores up the left side of the node 
+                Node leftPart = Split(root, i);
+                // Make a node that holds the string to be deleted
+                Node middlePart = Split(leftPart.Right, j - i);
+                // store up to the right side of the node 
+                Node rightPart = middlePart.Right;
+
+                // Discard the middle part (substring to be deleted)
+
+                middlePart = null;
+
+                // Concatenate the left and right parts
+                root = Concatenate(leftPart, rightPart);
+            }
+
         }
         catch (Exception ex)
         {
@@ -412,6 +436,7 @@ public class Rope
         return ToString(root);
     }
 
+    
     private string ToString(Node node)
     {
         if (node == null) return "";
@@ -437,6 +462,7 @@ public class Rope
                 // Skip printing "NULL" to avoid cluttering the output.
                 return;
             }
+            
 
             int childIndentation = indentation + 4;
 
@@ -560,51 +586,51 @@ public class Rope
 
 
     // Split the rope with root p at index i and return the root of the right subtree.
-private Node Split(Node node, int index)
-{
-    if (node == null) return null;
-
-    int leftSize = node.Left?.Size ?? 0;
-    int valueSize = node.Value?.Length ?? 0;
-
-    if (index < leftSize)
+    private Node Split(Node node, int index)
     {
-        // Split needs to happen in the left subtree.
-        Node splitRight = Split(node.Left, index);
-        node.Left = splitRight; // Update the left subtree after the split.
-    }
-    else if (index > leftSize && node.Right != null)
-    {
-        // Adjust index relative to the right subtree.
-        index -= (leftSize + valueSize);
-        Node splitRight = Split(node.Right, index);
-        node.Right = splitRight; // Update the right subtree after the split.
-    }
-    else if (node.Value != null && index - leftSize < valueSize)
-    {
-        // If the index is within the current node's value, split the string.
-        string currentValue = node.Value;
-        string leftPart = currentValue.Substring(0, index - leftSize);
-        string rightPart = currentValue.Substring(index - leftSize);
+        if (node == null) return null;
 
-        // Create a new node for the right part of the split.
-        Node rightNode = new Node(rightPart) { Size = rightPart.Length };
+        int leftSize = node.Left?.Size ?? 0;
+        int valueSize = node.Value?.Length ?? 0;
 
-        // Update the current node for the left part.
-        node.Value = leftPart;
-        node.Size = leftPart.Length;
-
-        // Adjust the tree if needed.
-        if (node.Right != null)
+        if (index < leftSize)
         {
-            rightNode.Right = node.Right; // Attach the existing right subtree to the new node.
+            // Split needs to happen in the left subtree.
+            Node splitRight = Split(node.Left, index);
+            node.Left = splitRight; // Update the left subtree after the split.
         }
-        node.Right = rightNode; // Attach the new node as the right child of the current node.
-    }
+        else if (index > leftSize && node.Right != null)
+        {
+            // Adjust index relative to the right subtree.
+            index -= (leftSize + valueSize);
+            Node splitRight = Split(node.Right, index);
+            node.Right = splitRight; // Update the right subtree after the split.
+        }
+        else if (node.Value != null && index - leftSize < valueSize)
+        {
+            // If the index is within the current node's value, split the string.
+            string currentValue = node.Value;
+            string leftPart = currentValue.Substring(0, index - leftSize);
+            string rightPart = currentValue.Substring(index - leftSize);
 
-    // No explicit call to Rebalance here - depending on your rope's usage patterns, you might decide to rebalance periodically or after certain operations.
-    return node; // Return the modified tree.
-}
+            // Create a new node for the right part of the split.
+            Node rightNode = new Node(rightPart) { Size = rightPart.Length };
+
+            // Update the current node for the left part.
+            node.Value = leftPart;
+            node.Size = leftPart.Length;
+
+            // Adjust the tree if needed.
+            if (node.Right != null)
+            {
+                rightNode.Right = node.Right; // Attach the existing right subtree to the new node.
+            }
+            node.Right = rightNode; // Attach the new node as the right child of the current node.
+        }
+
+        // No explicit call to Rebalance here - depending on your rope's usage patterns, you might decide to rebalance periodically or after certain operations.
+        return node; // Return the modified tree.
+    }
 
 
     // Rebalance the rope using the algorithm found on pages 1319-1320 of Boehm et al. (9 marks).
@@ -699,14 +725,14 @@ private Node Split(Node node, int index)
 
         // Console.WriteLine(rope.CharAt(0)); //ideally should print the 0th index or the first character in the string
 
-        // rope.Delete(0, 7);
+        //  rope.Delete(0, 7);
 
         // rope.Reverse();
 
         // rope.PrintRope();
 
 
-    // rope.Delete(0,2);
+        // rope.Delete(0,2);
 
 
 
@@ -800,21 +826,13 @@ private Node Split(Node node, int index)
                 bool convertStartIndexToInt = Int32.TryParse(input, out int startIndex);
                 Console.WriteLine("Enter the stop position");
                 string secondInput = Console.ReadLine();
-                bool convertStopIndexToInt = Int32.TryParse(secondInput, out int stopIndex);
+                bool convertStopIndexToIntT = Int32.TryParse(secondInput, out int stopIndex);
 
-                if (startIndex != -1 && stopIndex != -1 && stopIndex! > startIndex)
+                if (convertStartIndexToInt == true && convertStopIndexToIntT == true)
                 {
-
                     rope.Delete(startIndex, stopIndex);
-
                     Console.WriteLine("from starting position " + startIndex + " until the stop position " + stopIndex + " removed successfully!");
                 }
-
-                else
-                {
-                    Console.WriteLine("Oops, something went wrong try again!");
-                }
-
 
 
             }
@@ -966,8 +984,6 @@ private Node Split(Node node, int index)
                 rope.PerformRebalance();
 
                 Console.WriteLine("Rebalanced Succesfully! ");
-
-
 
 
 
