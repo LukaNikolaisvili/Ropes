@@ -506,16 +506,16 @@ public class Rope
             }
             else
             {
-
+                //otherwise print this way 
                 Console.WriteLine(indent + "└ (Size: " + node.Size + ")");
             }
 
-
+            //recursive call of the printNOde with left side and childindentation level
             PrintNode(node.Left, childIndentation);
         }
-        catch (Exception ex)
+        catch (Exception ex) //catching any occuring exceptions
         {
-
+            //handling it with throwing this message
             Console.WriteLine("An error occurred: " + ex.Message);
         }
     }
@@ -529,32 +529,36 @@ public class Rope
     {
         if (start >= end) return null;
         if (end - start <= 10) return new Node(str.Substring(start, end - start));
-
+        //finding the middle point
         int mid = start + (end - start) / 2;
+        //using calling the build method, passing the str , start and mid
         Node left = Build(str, start, mid);
+        //right side building using the build method, passing the str, mid and end
         Node right = Build(str, mid, end);
-
+        //creating the parent node with null
         Node parent = new Node(null)
         {
-
+            //giving it lef and right sides 
             Left = left,
             Right = right
 
         };
         int leftSize = 0;
         int rightSize = 0;
-
+        //if the left is not empty then 
         if (left != null)
-        {
+        {   
+            //leftsize is same as left.size
             leftSize = left.Size;
         }
-
+        //if right is not empty
         if (right != null)
-        {
+        {   //rightsize is the right.size
             rightSize = right.Size;
         }
-
+        //parent size will be both added together
         parent.Size = leftSize + rightSize;
+        //returning the parent
         return parent;
     }
 
@@ -562,15 +566,15 @@ public class Rope
     private Node Concatenate(Node p, Node q)
     {
         try
-        {
+        {   //creating the new node called root
             Node root = new Node(null);
 
             // If any of the passed nodes are null, exit.
             if (p == null || q == null)
-            {
+            {   //return null
                 return null;
             }
-            else
+            else //otherwise 
             {
                 // Otherwise set the nodes to the left and right children
                 root.Left = p;
@@ -584,12 +588,12 @@ public class Rope
                     root.Value = p.Value + q.Value;
                 }
             }
-
+            //checking if this.root not null
             if (this.root != null)
-            {
+            {   //if not then pritning the message
                 Console.WriteLine(this.root.Value);
             }
-            else
+            else //otherwise printing the following message
             {
                 Console.WriteLine("Root is null.");
             }
@@ -598,14 +602,14 @@ public class Rope
             //Optimization adding left and right together if the total size is less than or equal to 5
             if (root.Left.Size + root.Right.Size <= 5)
             {
-
+                //assigning value to the root.value
                 root.Value = p.Value + q.Value;
 
             }
-
+        //returning root
             return root;
         }
-        catch (Exception ex)
+        catch (Exception ex) //exception handling
         {
             // Handle the exception here, you can log it or perform any other necessary actions.
             Console.WriteLine("An error occurred: " + ex.Message);
@@ -616,14 +620,15 @@ public class Rope
 
     // Split the rope with root p at index i and return the root of the right subtree.
     private Node Split(Node node, int index)
-    {
+    {   
+        //checking if the node is null then we will return null
         if (node == null) return null;
-
+        
         int leftSize = node.Left?.Size ?? 0;
         int valueSize = node.Value?.Length ?? 0;
-
+        //if the index < less the left size
         if (index < leftSize)
-        {
+        {   
             // Split needs to happen in the left subtree.
             Node splitRight = Split(node.Left, index);
             node.Left = splitRight; // Update the left subtree after the split.
@@ -677,7 +682,7 @@ public class Rope
     {
         if (node == null) return;
 
-        // If this is a leaf node (has a value), add it to the list.
+        // If this is a leaf node has a value, we 
         if (node.Value != null)
         {
             leaves.Add(node.Value);
@@ -692,13 +697,13 @@ public class Rope
 
     private Node RebuildTree(List<string> leaves, int start, int end)
     {
-        // Base case: when the range is invalid.
+        // when the range is invalid. we will return null
         if (start >= end) return null;
 
-        // Base case: when there's only one element in the range, create a leaf node.
+        // when ther is one element in the range,  we will create a  leaf node.
         if (start == end - 1) return new Node(leaves[start]);
 
-        // Recursive case: split the leaves into two roughly equal halves and build subtrees.
+        // recursion
         int mid = start + (end - start) / 2;
         Node left = RebuildTree(leaves, start, mid);
         Node right = RebuildTree(leaves, mid, end);
@@ -710,79 +715,31 @@ public class Rope
             Right = right,
             Size = (left != null ? left.Size : 0) + (right != null ? right.Size : 0)
         };
-
+        //return parent 
         return parent;
     }
 
-    // Then, to rebalance the rope, you would call the Rebalance method and update the root.
+    // we are calling the rebalance method in the PerformRebalance method and in the future we will use this method to perform rebalance (PerformRebalance)
     public void PerformRebalance()
-    {
+    {   
         root = Rebalance();
     }
 
-
+    //main program where we will put everything together
     public static void Main(string[] args)
     {
-        // Testing nodes
-        // Node node = new Node("LUKA");
+        //setting up nodes
         Node node1 = new Node("NIKOLAISVILI");
         Node node2 = new Node("LUKA");
         Rope rope = new Rope(node1.Value);
 
-
-        // Console.WriteLine(rope.Split(node, 1));
-
-        // Console.WriteLine(node.Value);
-
-        // node3 = new Node(null); // L U K A N I K O
-
-        // node3 = rope.Concatenate(node, node1);
-
-        // Console.WriteLine(node3.Value);
-
-        // rope.PrintRope();
-
-        // rope.Insert("777", 7); //insert method might have some issues, got to take a look at it in depth.
-
-
-        // rope.Insert("LUKADATO", 5);
-
-        //think split method has some issues, got to take care of that
-
-
-        // rope.PrintRope();
-
-        // Console.WriteLine(rope.CharAt(0)); //ideally should print the 0th index or the first character in the string
-
-        //  rope.Delete(0, 7);
-
-        // rope.Reverse();
-
-        // rope.PrintRope();
-
-
-        // rope.Delete(0,2);
-
-
-
-
+        //setting flag to true for the infinite loop until its not going to change it will run infinitely
         bool flag = true;
 
-        // Console.WriteLine(rope.ToString());
-
-
-        // Console.WriteLine(rope.IndexOf(node, 'L'));
-
-        // Console.WriteLine(rope.Split(node, 1));
-
-        // rope.PrintRope();
-
-
-
-
+       
         while (flag)
         {
-            // User interface
+            // printnig User interface
             Console.WriteLine("\nHello, you can perform any of these operations!");
             Console.WriteLine("-----------------");
             Console.WriteLine("1 - Insert\n2 - Split\n3 - Delete\n4 - Reverse\n5 - Print\n6 - ToString\n7 - Substring\n8 - Find\n9 - CharAt\n10 - IndexOf\n0 - Rebalance\nx - Exit()\n");
