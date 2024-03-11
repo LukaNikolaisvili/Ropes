@@ -467,12 +467,12 @@ public class Rope
         if (node.Value != null)
         {
          
-            Console.WriteLine(indent + "|__ (Size: " + node.Size + " | Value: '" + node.Value + "')");
+            Console.WriteLine(indent + " └ (Size: " + node.Size + " | Value: '" + node.Value + "')");
         }
         else
         {
          
-            Console.WriteLine(indent + "|__ (Size: " + node.Size + ")");
+            Console.WriteLine(indent + "└ (Size: " + node.Size + ")");
         }
 
       
@@ -623,19 +623,61 @@ public class Rope
 
     // Rebalance the rope using the algorithm found on pages 1319-1320 of Boehm et al. (9 marks).
     private Node Rebalance()
+{
+    // Collect all leaves into a list.
+    List<string> leaves = new List<string>();
+    CollectLeaves(root, leaves);
+
+    // Rebuild the tree from the collected leaves.
+    return RebuildTree(leaves, 0, leaves.Count);
+}
+
+private void CollectLeaves(Node node, List<string> leaves)
+{
+    if (node == null) return;
+
+    // If this is a leaf node (has a value), add it to the list.
+    if (node.Value != null)
     {
-        try
-        {
-            return null;
-        }
-        catch (Exception ex)
-        {
-            Console.WriteLine("error occurred: " + ex.Message);
-
-        }
-
-        return null;
+        leaves.Add(node.Value);
     }
+    else
+    {
+        // Otherwise, recursively collect leaves from both subtrees.
+        CollectLeaves(node.Left, leaves);
+        CollectLeaves(node.Right, leaves);
+    }
+}
+
+private Node RebuildTree(List<string> leaves, int start, int end)
+{
+    // Base case: when the range is invalid.
+    if (start >= end) return null;
+
+    // Base case: when there's only one element in the range, create a leaf node.
+    if (start == end - 1) return new Node(leaves[start]);
+
+    // Recursive case: split the leaves into two roughly equal halves and build subtrees.
+    int mid = start + (end - start) / 2;
+    Node left = RebuildTree(leaves, start, mid);
+    Node right = RebuildTree(leaves, mid, end);
+
+    // Create a new parent node for the two subtrees.
+    Node parent = new Node(null)
+    {
+        Left = left,
+        Right = right,
+        Size = (left != null ? left.Size : 0) + (right != null ? right.Size : 0)
+    };
+
+    return parent;
+}
+
+// Then, to rebalance the rope, you would call the Rebalance method and update the root.
+public void PerformRebalance()
+{
+    root = Rebalance();
+}
 
 
     public static void Main(string[] args)
@@ -643,13 +685,15 @@ public class Rope
         // Testing nodes
         // Node node = new Node("LUKA");
         Node node1 = new Node("NIKOLAISVILI");
+        Node node2 = new Node("LUKA");
         Rope rope = new Rope(node1.Value);
-
+      
+       
         // Console.WriteLine(rope.Split(node, 1));
 
         // Console.WriteLine(node.Value);
 
-        Node node3 = new Node(null); // L U K A N I K O
+        // node3 = new Node(null); // L U K A N I K O
 
         // node3 = rope.Concatenate(node, node1);
 
@@ -676,6 +720,7 @@ public class Rope
         // rope.PrintRope();
 
 
+    rope.Delete(0,2);
 
 
 
@@ -692,12 +737,14 @@ public class Rope
         // rope.PrintRope();
 
 
+
+
         while (flag)
         {
             // User interface
             Console.WriteLine("\nHello, you can perform any of these operations!");
             Console.WriteLine("-----------------");
-            Console.WriteLine("1 - Insert\n2 - Split\n3 - Delete\n4 - Reverse\n5 - Print\n6 - ToString\n7 - Substring\n8 - Find\n9 - CharAt\n10 - IndexOf\n0 - Exit\n");
+            Console.WriteLine("1 - Insert\n2 - Split\n3 - Delete\n4 - Reverse\n5 - Print\n6 - ToString\n7 - Substring\n8 - Find\n9 - CharAt\n10 - IndexOf\n0 - Rebalance\nx - Exit()\n");
             Console.WriteLine("-----------------");
             Console.WriteLine("Enter the UID of the operation: ");
 
@@ -769,7 +816,7 @@ public class Rope
                 string secondInput = Console.ReadLine();
                 bool convertStopIndexToInt = Int32.TryParse(secondInput, out int stopIndex);
 
-                if (startIndex != -1 && stopIndex != -1 && stopIndex! > startIndex)
+                if (startIndex != -1 && stopIndex != -1 && stopIndex !> startIndex)
                 {
 
                     rope.Delete(startIndex, stopIndex);
@@ -927,6 +974,21 @@ public class Rope
             }
             // Program Exit call
             else if (op == "0")
+            {
+                Console.WriteLine("You chose rebalance tree! ");
+
+                rope.PerformRebalance();
+
+                Console.WriteLine("Rebalanced Succesfully! ");
+
+            
+              
+
+
+            }
+
+
+            else if (op == "x")
             {
                 Console.WriteLine("Exiting...");
                 flag = false;
